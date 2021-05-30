@@ -3,4 +3,4 @@ node_modules
 npm-debug.log
 
 # Generated files
-/html
+/dist/main.js
