@@ -5,11 +5,15 @@ import ReactDOM from 'react-dom'
 
 import GlobalStyle from './GlobalStyle'
 import App from './App'
+import { store } from './store'
+import { Provider } from 'react-redux'
 
 ReactDOM.render(
   <>
     <GlobalStyle />
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </>,
   document.querySelector('#root')
 )
