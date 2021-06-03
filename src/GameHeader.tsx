@@ -2,7 +2,7 @@ import React from 'react'
 
 import SearchInput from './SearchInput'
 
-export default function SearchHeader () {
+export default function GameHeader () {
   return (
     <SearchInput />
   )

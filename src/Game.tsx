@@ -6,14 +6,14 @@ import {
   useRouteMatch
 } from 'react-router-dom'
 
-import SearchHeader from './SearchHeader'
+import GameHeader from './GameHeader'
 import SearchResults from './SearchResults'
 
 export default function Game () {
   const {path, url} = useRouteMatch()
   return (
     <div>
-      <SearchHeader />
+      <GameHeader />
       <Switch>
         <Route exact path={path}>
           <Redirect to={`${url}/search`} />
