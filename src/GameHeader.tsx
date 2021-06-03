@@ -1,9 +1,26 @@
 import React from 'react'
+import styled from 'styled-components'
 
+import Clue from './Clue'
+import GameCode from './GameCode'
 import SearchInput from './SearchInput'
+
+const HeaderRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: .5rem;
+`
 
 export default function GameHeader () {
   return (
-    <SearchInput />
+    <div>
+      <HeaderRow>
+        <Clue />
+        <GameCode />
+      </HeaderRow>
+      <HeaderRow>
+        <SearchInput />
+      </HeaderRow>
+    </div>
   )
 }
