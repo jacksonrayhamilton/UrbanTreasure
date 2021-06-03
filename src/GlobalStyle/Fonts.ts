@@ -32,4 +32,12 @@ export default createGlobalStyle`
     font-weight: normal;
     font-style: italic;
   }
+
+  @font-face {
+    font-family: 'Ubuntu Mono';
+    src: url('/fonts/ubuntumono-r-webfont.woff2') format('woff2'),
+         url('/fonts/ubuntumono-r-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
 `
