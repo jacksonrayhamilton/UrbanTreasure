@@ -1,9 +1,9 @@
 import React from 'react'
 
+import SearchInput from './SearchInput'
+
 export default function SearchHeader () {
   return (
-    <div>
-      <input type="search" />
-    </div>
+    <SearchInput />
   )
 }
