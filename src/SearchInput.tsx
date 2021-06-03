@@ -3,27 +3,36 @@ import styled from 'styled-components'
 
 import SearchIcon from './icons/SearchIcon'
 
-const SearchInputContainer = styled.div`
+const InputContainer = styled.div`
   position: relative;
   display: inline-block;
+`
 
-  input {
-    padding-right: 20px;
-  }
+const Input = styled.input`
+  padding-right: 1.5rem;
+`
 
-  svg {
-    position: absolute;
-    top: 3px;
-    right: 3px;
-    height: calc(100% - 6px);
-  }
+const IconContainer = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1.5rem;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+
+  svg { width: 1rem; height: 1rem; }
 `
 
 export default function SearchInput () {
   return (
-    <SearchInputContainer>
-      <input type="search" />
-      <SearchIcon />
-    </SearchInputContainer>
+    <InputContainer>
+      <Input type="search" />
+      <IconContainer>
+        <SearchIcon />
+      </IconContainer>
+    </InputContainer>
   )
 }
