@@ -5,14 +5,19 @@ import {
   Switch,
   useRouteMatch
 } from 'react-router-dom'
+import styled from 'styled-components'
 
 import GameHeader from './GameHeader'
 import SearchResults from './SearchResults'
 
+const GameContainer = styled.div`
+  padding: 1rem;
+`
+
 export default function Game () {
   const {path, url} = useRouteMatch()
   return (
-    <div>
+    <GameContainer>
       <GameHeader />
       <Switch>
         <Route exact path={path}>
@@ -22,6 +27,6 @@ export default function Game () {
           <SearchResults />
         </Route>
       </Switch>
-    </div>
+    </GameContainer>
   )
 }
