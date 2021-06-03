@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Redirect,
   BrowserRouter as Router,
@@ -6,10 +6,22 @@ import {
   Switch
 } from 'react-router-dom'
 
+import { useAppSelector, useAppDispatch } from './hooks'
+import { selectLatestGame, fetchLatestGame } from './latestGameSlice'
+
 import Game from './Game'
 
 export default function App () {
-  const latestGameId = 'AB12'  // FIXME: Make dynamic.
+  const [fetchingLatestGame, setFetchingLatestGame] = useState(false)
+  const latestGameId = useAppSelector(selectLatestGame)
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (fetchingLatestGame || latestGameId) return
+    setFetchingLatestGame(true)
+    dispatch(fetchLatestGame())
+  })
+
   return (
     <Router>
       <Switch>
@@ -17,7 +29,7 @@ export default function App () {
           <Redirect to="/game" />
         </Route>
         <Route exact path="/game">
-          <Redirect to={`/game/${latestGameId}`} />
+          {latestGameId && <Redirect to={`/game/${latestGameId}`} />}
         </Route>
         <Route path="/game/:gid">
           <Game />
