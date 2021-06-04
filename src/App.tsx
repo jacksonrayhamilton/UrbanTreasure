@@ -13,7 +13,8 @@ import Game from './Game'
 
 export default function App () {
   const [fetchingLatestGame, setFetchingLatestGame] = useState(false)
-  const latestGameId = useAppSelector(selectLatestGame)
+  const latestGame = useAppSelector(selectLatestGame)
+  const latestGameId = latestGame ? latestGame.id : undefined
   const dispatch = useAppDispatch()
 
   useEffect(() => {

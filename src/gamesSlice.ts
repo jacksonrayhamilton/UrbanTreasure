@@ -1,14 +1,23 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { RootState } from './store'
 
 import API from './API'
 
+interface Game {
+  id: string
+  clues: string[]
+}
+
 interface GamesState {
-  latestGame: string | void
+  latestGame: Game | void
+  currentGame: Game | void
+  games: Record<string, Game>
 }
 
 const initialState: GamesState = {
-  latestGame: undefined
+  latestGame: undefined,
+  currentGame: undefined,
+  games: {}
 }
 
 export const fetchLatestGame =
@@ -22,12 +31,17 @@ export const gamesSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(fetchLatestGame.fulfilled, (state, action: PayloadAction<string>) => {
-      state.latestGame = action.payload
+    builder.addCase(fetchLatestGame.fulfilled, (state, action) => {
+      const { game } = action.payload
+      const { id } = game
+      state.games = {...state.games, ...{[id]: game}}
+      state.latestGame = state.games[id]
+      if (!state.currentGame) state.currentGame = state.latestGame
     })
   }
 })
 
 export const selectLatestGame = (state: RootState) => state.games.latestGame
+export const selectCurrentGame = (state: RootState) => state.games.currentGame
 
 export default gamesSlice.reducer
