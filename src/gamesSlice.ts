@@ -34,7 +34,7 @@ export const gamesSlice = createSlice({
     builder.addCase(fetchLatestGame.fulfilled, (state, action) => {
       const { game } = action.payload
       const { id } = game
-      state.games = {...state.games, ...{[id]: game}}
+      state.games[id] = game
       state.defaultGame = state.games[id]
       if (!state.currentGame) state.currentGame = state.defaultGame
     })
