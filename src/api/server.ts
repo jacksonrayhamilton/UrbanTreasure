@@ -1,6 +1,4 @@
-'use strict'
-
-const Koa = require('koa')
+import Koa from 'koa'
 const app = new Koa
 
 const hostname = '0.0.0.0'
