@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom'
 
 import { useAppSelector, useAppDispatch } from './hooks'
-import { selectDefaultGame, fetchLatestGame } from './gamesSlice'
+import { selectDefaultGame, fetchGame, setDefaultGame } from './gamesSlice'
 
 import Game from './Game'
 
@@ -17,9 +17,16 @@ export default function App () {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
+    async function effect () {
+      setFetchingGame(true)
+      const resultAction = await dispatch(fetchGame())
+      if (fetchGame.fulfilled.match(resultAction)) {
+        const { game } = resultAction.payload
+        dispatch(setDefaultGame(game))
+      }
+    }
     if (fetchingGame || defaultGame) return
-    setFetchingGame(true)
-    dispatch(fetchLatestGame())
+    effect()
   })
 
   return (
