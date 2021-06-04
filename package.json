@@ -1,8 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "build": "NODE_ENV=production webpack",
-    "develop": "NODE_ENV=development webpack --watch"
+    "build": "tsc --project tsconfig-api.json && NODE_ENV=production webpack",
+    "develop": "npm-run-all --parallel develop:api develop:ui",
+    "develop:api": "tsc --project tsconfig-api.json --watch",
+    "develop:ui": "NODE_ENV=development webpack --watch"
   },
   "dependencies": {
     "koa": "^2.13.1"
@@ -16,6 +18,7 @@
     "@types/styled-components": "^5.1.9",
     "css-loader": "^5.2.6",
     "normalize.css": "^8.0.1",
+    "npm-run-all": "^4.1.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",

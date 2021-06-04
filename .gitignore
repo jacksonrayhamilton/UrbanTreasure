@@ -3,4 +3,5 @@ node_modules
 npm-debug.log
 
 # Generated files
+/dist/*.js*
 /dist/public_html/main.js*
