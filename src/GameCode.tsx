@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 const Input = styled.input`
@@ -7,18 +8,22 @@ const Input = styled.input`
   text-align: center;
 `
 
+const GID_SIZE = 4
+
 export default function GameCode () {
-  const gameCode = 'X25Q' // FIXME: Make dynamic.
+  const history = useHistory()
+  const { gid } = useParams<{ gid: string }>()
 
   function handleChange (e: React.ChangeEvent<HTMLInputElement>) {
-    // TODO: Change page URL.
+    const newGid = e.target.value
+    if (newGid.length === GID_SIZE) history.push(`/game/${newGid}/search`)
   }
 
   return (
     <span>
       Game Code: <Input
                    onChange={handleChange}
-                   defaultValue={gameCode}
+                   defaultValue={gid}
                    maxLength={4} />
     </span>
   )
