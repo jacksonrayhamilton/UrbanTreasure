@@ -9,13 +9,13 @@ interface Game {
 }
 
 interface GamesState {
-  latestGame: Game | void
+  defaultGame: Game | void
   currentGame: Game | void
   games: Record<string, Game>
 }
 
 const initialState: GamesState = {
-  latestGame: undefined,
+  defaultGame: undefined,
   currentGame: undefined,
   games: {}
 }
@@ -35,13 +35,13 @@ export const gamesSlice = createSlice({
       const { game } = action.payload
       const { id } = game
       state.games = {...state.games, ...{[id]: game}}
-      state.latestGame = state.games[id]
-      if (!state.currentGame) state.currentGame = state.latestGame
+      state.defaultGame = state.games[id]
+      if (!state.currentGame) state.currentGame = state.defaultGame
     })
   }
 })
 
-export const selectLatestGame = (state: RootState) => state.games.latestGame
+export const selectDefaultGame = (state: RootState) => state.games.defaultGame
 export const selectCurrentGame = (state: RootState) => state.games.currentGame
 
 export default gamesSlice.reducer

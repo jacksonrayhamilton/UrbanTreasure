@@ -7,17 +7,17 @@ import {
 } from 'react-router-dom'
 
 import { useAppSelector, useAppDispatch } from './hooks'
-import { selectLatestGame, fetchLatestGame } from './gamesSlice'
+import { selectDefaultGame, fetchLatestGame } from './gamesSlice'
 
 import Game from './Game'
 
 export default function App () {
   const [fetchingGame, setFetchingGame] = useState(false)
-  const latestGame = useAppSelector(selectLatestGame)
+  const defaultGame = useAppSelector(selectDefaultGame)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (fetchingGame || latestGame) return
+    if (fetchingGame || defaultGame) return
     setFetchingGame(true)
     dispatch(fetchLatestGame())
   })
@@ -29,7 +29,7 @@ export default function App () {
           <Redirect to="/game" />
         </Route>
         <Route exact path="/game">
-          {latestGame && <Redirect to={`/game/${latestGame.id}`} />}
+          {defaultGame && <Redirect to={`/game/${defaultGame.id}`} />}
         </Route>
         <Route path="/game/:gid">
           <Game />
