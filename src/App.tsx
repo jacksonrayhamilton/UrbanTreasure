@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom'
 
 import { useAppSelector, useAppDispatch } from './hooks'
-import { selectLatestGame, fetchLatestGame } from './latestGameSlice'
+import { selectLatestGame, fetchLatestGame } from './gamesSlice'
 
 import Game from './Game'
 

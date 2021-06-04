@@ -3,31 +3,31 @@ import type { RootState } from './store'
 
 import API from './API'
 
-interface LatestGameState {
-  id: string | void
+interface GamesState {
+  latestGame: string | void
 }
 
-const initialState: LatestGameState = {
-  id: undefined
+const initialState: GamesState = {
+  latestGame: undefined
 }
 
 export const fetchLatestGame =
-  createAsyncThunk('latestGame/fetchLatestGame', async () => {
+  createAsyncThunk('games/fetchLatestGame', async () => {
     const response = await API.fetchLatestGame()
     return response.data
   })
 
-export const latestGameSlice = createSlice({
-  name: 'latestGame',
+export const gamesSlice = createSlice({
+  name: 'games',
   initialState,
   reducers: {},
   extraReducers(builder) {
     builder.addCase(fetchLatestGame.fulfilled, (state, action: PayloadAction<string>) => {
-      state.id = action.payload
+      state.latestGame = action.payload
     })
   }
 })
 
-export const selectLatestGame = (state: RootState) => state.latestGame.id
+export const selectLatestGame = (state: RootState) => state.games.latestGame
 
-export default latestGameSlice.reducer
+export default gamesSlice.reducer

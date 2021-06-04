@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import latestGameReducer from './latestGameSlice'
+import gamesReducer from './gamesSlice'
 
 export const store = configureStore({
   reducer: {
-    latestGame: latestGameReducer
+    games: gamesReducer
   }
 })
 
