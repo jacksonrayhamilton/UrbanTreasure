@@ -12,14 +12,13 @@ import { selectLatestGame, fetchLatestGame } from './gamesSlice'
 import Game from './Game'
 
 export default function App () {
-  const [fetchingLatestGame, setFetchingLatestGame] = useState(false)
+  const [fetchingGame, setFetchingGame] = useState(false)
   const latestGame = useAppSelector(selectLatestGame)
-  const latestGameId = latestGame ? latestGame.id : undefined
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (fetchingLatestGame || latestGameId) return
-    setFetchingLatestGame(true)
+    if (fetchingGame || latestGame) return
+    setFetchingGame(true)
     dispatch(fetchLatestGame())
   })
 
@@ -30,7 +29,7 @@ export default function App () {
           <Redirect to="/game" />
         </Route>
         <Route exact path="/game">
-          {latestGameId && <Redirect to={`/game/${latestGameId}`} />}
+          {latestGame && <Redirect to={`/game/${latestGame.id}`} />}
         </Route>
         <Route path="/game/:gid">
           <Game />
