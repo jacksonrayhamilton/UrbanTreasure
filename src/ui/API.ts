@@ -1,26 +1,8 @@
-const games = {
-  'AB12': {
-    id: 'AB12',
-    clues: [
-      'smelly fig',
-      'hop kitty'
-    ]
-  },
-  'X25Q': {
-    id: 'X25Q',
-    clues: [
-      'rabbit feet',
-      'pickle salad'
-    ]
-  }
-}  // FIXME: Make dynamic.
+async function fetchLatestGame() {
+  return (await fetch('/api/games/latest')).json()
+}
 
-export default {
-  fetchLatestGame() {
-    return Promise.resolve({ data: { game: games['X25Q'] } })
-  },
-  fetchGame(id: string | void) {
-    if (!id) return this.fetchLatestGame()
-    return Promise.resolve({ data: { game: games['AB12'] } })
-  }
+export async function fetchGame(id: string | void) {
+  if (!id) return fetchLatestGame()
+  return (await fetch(`/api/games/${id}`)).json()
 }

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { RootState } from './store'
 
-import API from './API'
+import * as API from './API'
 
 interface Game {
   id: string
