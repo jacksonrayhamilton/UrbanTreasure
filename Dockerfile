@@ -1,5 +1,8 @@
 FROM node:14
 
+# For iterative development
+RUN npm install --global nodemon
+
 # Create app directory
 WORKDIR /usr/src/app
 
@@ -12,4 +15,4 @@ RUN npm ci --only=production
 COPY . .
 
 EXPOSE 3000
-CMD [ "node", "dist/server.js" ]
+CMD [ "nodemon" ]

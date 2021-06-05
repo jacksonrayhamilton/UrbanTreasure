@@ -1,5 +1,6 @@
 {
   "private": true,
+  "main": "./dist/server.js",
   "scripts": {
     "build": "tsc --project tsconfig-api.json && NODE_ENV=production webpack",
     "develop": "npm-run-all --parallel develop:api develop:ui",

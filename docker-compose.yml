@@ -2,6 +2,8 @@ version: '3'
 services:
   nodejs:
     build: .
+    volumes:
+      - ./dist/:/usr/src/app/dist
     expose:
       - '3000'
   nginx:
