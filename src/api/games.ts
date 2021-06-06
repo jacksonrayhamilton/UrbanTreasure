@@ -217,12 +217,11 @@ function generateClues (addresses: Address[]) {
 
 function generateClue(address: Address): Clue {
   const associations = fnameAssociations[address.fname]
-  const adjective = randomValue(associations.adjective)
-  const noun = randomValue(associations.noun)
-  return {
-    origin: null,
-    clue: `${adjective} ${noun}`
-  }
+  const clue = randomValue([].concat(
+    associations.noun,
+    associations.adjective
+  ))
+  return { origin: null, clue }
 }
 
 router.post('/', async (ctx) => {
