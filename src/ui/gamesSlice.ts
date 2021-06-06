@@ -5,7 +5,8 @@ import * as API from './API'
 
 interface Game {
   id: string
-  clues: string[]
+  clues: string[],
+  addresses: string[]
 }
 
 interface GamesState {

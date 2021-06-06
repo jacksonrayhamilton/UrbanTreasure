@@ -1,7 +1,15 @@
 import React from 'react'
 
-export default function SearchHeader () {
-  return (
-    <div>Search results go here…</div>
-  )
+import { useAppSelector } from './hooks'
+import { selectCurrentGame } from './gamesSlice'
+
+export default function SearchResults () {
+  const currentGame = useAppSelector(selectCurrentGame)
+  return currentGame ? (
+    <ul>
+      {currentGame.addresses.map((address) =>
+        <li key={address}>{address}</li>
+      )}
+    </ul>
+  ) : null
 }
