@@ -19,7 +19,7 @@ const GameContainer = styled.div`
 `
 
 export default function Game () {
-  const [fetchingGame, setFetchingGame] = useState(false)
+  const [fetchingGames, setFetchingGames] = useState({})
   const { gid } = useParams<{ gid: string }>()
   const { path, url } = useRouteMatch()
   const currentGame = useAppSelector(selectCurrentGame)
@@ -28,11 +28,11 @@ export default function Game () {
 
   useEffect(() => {
     async function effect () {
-      setFetchingGame(true)
-      await dispatch(fetchGame(gid))
-      setFetchingGame(false)
+      setFetchingGames({ ...fetchingGames, [gid]: true })
+      dispatch(fetchGame(gid))
     }
-    if (fetchingGame || routedGame) return
+    if (Object.prototype.hasOwnProperty.call(fetchingGames, gid) ||
+        routedGame) return
     effect()
   })
 
