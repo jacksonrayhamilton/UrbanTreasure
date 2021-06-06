@@ -27,6 +27,12 @@ export const fetchGame =
     return response.data
   })
 
+export const startNewGame =
+  createAsyncThunk('games/startNewGame', async () => {
+    const response = await API.createGame()
+    return response.data
+  })
+
 export const gamesSlice = createSlice({
   name: 'games',
   initialState,
@@ -39,6 +45,12 @@ export const gamesSlice = createSlice({
       const { game } = action.payload
       const { id } = game
       state.games[id] = game
+    })
+    builder.addCase(startNewGame.fulfilled, (state, action) => {
+      const { game } = action.payload
+      const { id } = game
+      state.games[id] = game
+      state.currentGame = game
     })
   }
 })

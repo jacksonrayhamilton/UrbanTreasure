@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Clue from './Clue'
 import GameCode from './GameCode'
 import SearchInput from './SearchInput'
+import NewGame from './NewGame'
 
 const HeaderRow = styled.div`
   display: flex;
@@ -20,6 +21,7 @@ export default function GameHeader () {
       </HeaderRow>
       <HeaderRow>
         <SearchInput />
+        <NewGame />
       </HeaderRow>
     </div>
   )
