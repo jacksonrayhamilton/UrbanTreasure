@@ -21,6 +21,9 @@ interface Clue {
 
 interface Address {
   address: string
+  num?: number
+  fname?: string
+  lname?: string
   clue?: string
   treasure?: boolean
 }
@@ -113,6 +116,122 @@ router.get('/:id', (ctx, next) => {
     }
   }
   next()
+})
+
+async function createGame () {
+  const game: Game = { id: '', clues: [], addresses: [] }
+  game.id = generateGameId()
+  game.addresses = generateAddresses()
+  game.clues = generateClues(game.addresses)
+  // TODO: Implement this:
+  // await database.save(game.id, game)
+  return game
+}
+
+function randomNumber (min: number, max: number) {
+  return Math.floor(Math.random() * (max - min) + min)
+}
+
+function randomValue (collection: any[] | string) {
+  return collection[randomNumber(0, collection.length - 1)]
+}
+
+function generateGameId () {
+  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  let id = ''
+  for (let i = 0; i < 4; i++) id += randomValue(chars)
+  return id
+}
+
+function generateAddresses () {
+  const addresses = []
+  for (let i = 0; i < 10; i++) {
+    let generated: Address
+    let alreadyGenerated: boolean
+    do {
+      generated = generateAddress()
+      alreadyGenerated = !!addresses.find((existing) => {
+        existing.address === generated.address
+      })
+    } while (alreadyGenerated)
+    addresses.push(generated)
+  }
+  randomValue(addresses).treasure = true
+  return addresses
+}
+
+const addressFnames = ["Acorn", "Amber", "Ash"]
+const addressLnames = ["Street", "Avenue", "Lane"]
+
+function generateAddress (): Address {
+  const num = randomNumber(1, 9999)
+  const fname = randomValue(addressFnames)
+  const lname = randomValue(addressLnames)
+  return {
+    address: `${num} ${fname} ${lname}`,
+    num, fname, lname
+  }
+}
+
+interface AssociationsMap {
+  [key: string]: Associations
+}
+
+interface Associations {
+  noun: string[]
+  adjective: string[]
+}
+
+const fnameAssociations: AssociationsMap = {
+  "Acorn": {
+    "noun": ["Oak", "Squirrel", "Nut"],
+    "adjective": ["Roasted", "Planted", "Wild"]
+  },
+  "Amber": {
+    "noun": ["Resin", "Fossil", "Jewelry"],
+    "adjective": ["Tinted", "Colored", "Opaque"]
+  },
+  "Ash": {
+    "noun": ["Oven", "Dust", "Flame"],
+    "adjective": ["Volcanic", "Dry", "Burnt"]
+  }
+}
+
+function generateClues (addresses: Address[]) {
+  const clues = []
+  let cluesToAdd = Math.min(addresses.length, 5)
+  let nextAddress = addresses.find((address) => address.treasure)
+  for (;;) {
+    const clue = generateClue(nextAddress)
+    clues.unshift(clue)
+    cluesToAdd--
+    if (!cluesToAdd) break
+    do {
+      nextAddress = randomValue(addresses)
+    } while (nextAddress.clue)
+    nextAddress.clue = clue.clue
+    clue.origin = nextAddress.address
+  }
+  return clues
+}
+
+function generateClue(address: Address): Clue {
+  const associations = fnameAssociations[address.fname]
+  const adjective = randomValue(associations.adjective)
+  const noun = randomValue(associations.noun)
+  return {
+    origin: null,
+    clue: `${adjective} ${noun}`
+  }
+}
+
+router.post('/', async (ctx) => {
+  const game = await createGame()
+  ctx.body = {
+    data: {
+      game: serializeGame(game)
+    }
+  }
 })
 
 export default router
