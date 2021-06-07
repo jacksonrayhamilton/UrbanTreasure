@@ -5,10 +5,6 @@ const router = new Router({
   prefix: '/api/games'
 })
 
-interface GameMap {
-  [key: string]: Game
-}
-
 interface Game {
   id: string
   clues: Clue[]
@@ -22,9 +18,9 @@ interface Clue {
 
 interface Address {
   address: string
-  num?: number
-  fname?: string
-  lname?: string
+  num: number
+  fname: string
+  lname: string
   clue?: string
   treasure?: boolean
 }
@@ -142,7 +138,7 @@ const fnameAssociations: AssociationsMap = {
 function generateClues (addresses: Address[]) {
   const clues = []
   let cluesToAdd = Math.min(addresses.length, 5)
-  let nextAddress = addresses.find((address) => address.treasure)
+  let nextAddress = addresses.find((address) => address.treasure) as Address
   for (;;) {
     const clue = generateClue(nextAddress)
     clues.unshift(clue)
@@ -159,7 +155,7 @@ function generateClues (addresses: Address[]) {
 
 function generateClue(address: Address): Clue {
   const associations = fnameAssociations[address.fname]
-  const clue = randomValue([].concat(
+  const clue = randomValue(Array.prototype.concat.call(
     associations.noun,
     associations.adjective
   ))

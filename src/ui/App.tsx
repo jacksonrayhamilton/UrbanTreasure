@@ -36,7 +36,7 @@ export default function App () {
           <Redirect to="/game" />
         </Route>
         <Route exact path="/game">
-          {defaultGame && <Redirect to={`/game/${defaultGame.id}`} />}
+          {defaultGame ? <Redirect to={`/game/${defaultGame.id}`} /> : undefined}
         </Route>
         <Route path="/game/:gid">
           <Game />
