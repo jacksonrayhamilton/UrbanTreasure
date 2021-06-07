@@ -4,4 +4,5 @@ npm-debug.log
 
 # Generated files
 /dist/*.js*
+/dist/data/*.json
 /dist/public_html/main.js*

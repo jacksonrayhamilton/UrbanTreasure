@@ -1,5 +1,6 @@
 import Router from 'koa-router'
 import { database } from './db'
+import { streetNames, streetSuffixes, wordAssociations } from './data'
 
 const router = new Router({
   prefix: '/api/games'
@@ -18,9 +19,9 @@ interface Clue {
 
 interface Address {
   address: string
-  num: number
-  fname: string
-  lname: string
+  streetNumber: number
+  streetName: string
+  streetSuffix: string
   clue?: string
   treasure?: boolean
 }
@@ -98,40 +99,15 @@ function generateAddresses() {
   return addresses
 }
 
-const addressFnames = ["Acorn", "Amber", "Ash"]
-const addressLnames = ["Street", "Avenue", "Lane"]
+
 
 function generateAddress(): Address {
-  const num = randomNumber(1, 9999)
-  const fname = randomValue(addressFnames)
-  const lname = randomValue(addressLnames)
+  const streetNumber = randomNumber(1, 9999)
+  const streetName = randomValue(streetNames)
+  const streetSuffix = randomValue(streetSuffixes)
   return {
-    address: `${num} ${fname} ${lname}`,
-    num, fname, lname
-  }
-}
-
-interface AssociationsMap {
-  [key: string]: Associations
-}
-
-interface Associations {
-  noun: string[]
-  adjective: string[]
-}
-
-const fnameAssociations: AssociationsMap = {
-  "Acorn": {
-    "noun": ["Oak", "Squirrel", "Nut"],
-    "adjective": ["Roasted", "Planted", "Wild"]
-  },
-  "Amber": {
-    "noun": ["Resin", "Fossil", "Jewelry"],
-    "adjective": ["Tinted", "Colored", "Opaque"]
-  },
-  "Ash": {
-    "noun": ["Oven", "Dust", "Flame"],
-    "adjective": ["Volcanic", "Dry", "Burnt"]
+    address: `${streetNumber} ${streetName} ${streetSuffix}`,
+    streetNumber, streetName, streetSuffix
   }
 }
 
@@ -154,10 +130,12 @@ function generateClues(addresses: Address[]) {
 }
 
 function generateClue(address: Address): Clue {
-  const associations = fnameAssociations[address.fname]
+  const associations = wordAssociations[address.streetName]
   const clue = randomValue(Array.prototype.concat.call(
     associations.noun,
-    associations.adjective
+    associations.adjective,
+    associations.verb,
+    associations.adverb
   ))
   return { origin: null, clue }
 }

@@ -1,0 +1,79 @@
+{
+  "Brook": {
+    "noun": [
+      "Trout",
+      "Tributary",
+      "Roaring",
+      "Pond",
+      "Watershed",
+      "Stream",
+      "Beaver",
+      "Mill",
+      "Murmur",
+      "Waterfall"
+    ],
+    "adjective": [
+      "Upstream",
+      "Flowing",
+      "Muddy"
+    ],
+    "verb": [
+      "Flow",
+      "Bubble",
+      "Bathe"
+    ],
+    "adverb": []
+  },
+  "Market": {
+    "noun": [
+      "Consumer",
+      "Product",
+      "Buyer",
+      "Vendor"
+    ],
+    "adjective": [
+      "Affordable",
+      "Luxury",
+      "Inexpensive"
+    ],
+    "verb": [
+      "Price",
+      "Manufacture",
+      "Export",
+      "Sell"
+    ],
+    "adverb": [
+      "Commercially",
+      "Locally",
+      "Economically"
+    ]
+  },
+  "Oak": {
+    "noun": [
+      "Leaf",
+      "Woodland",
+      "Scrub",
+      "Tree",
+      "Thicket"
+    ],
+    "adjective": [
+      "Deciduous",
+      "Planted",
+      "Wooded",
+      "Poison",
+      "Forested",
+      "Leafy",
+      "Shady"
+    ],
+    "verb": [
+      "Carve",
+      "Shade",
+      "Overgrow",
+      "Plant"
+    ],
+    "adverb": [
+      "Thickly",
+      "Richly"
+    ]
+  }
+}
