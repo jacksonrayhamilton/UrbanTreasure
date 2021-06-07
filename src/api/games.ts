@@ -76,7 +76,7 @@ function randomNumber(min: number, max: number) {
 }
 
 function randomValue(collection: any[] | string) {
-  return collection[randomNumber(0, collection.length - 1)]
+  return collection[randomNumber(0, collection.length)]
 }
 
 function generateGameId() {
