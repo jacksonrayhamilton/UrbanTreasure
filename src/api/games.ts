@@ -36,8 +36,9 @@ function serializeGame(game: Game) {
 
 router.get('/latest', async (ctx) => {
   const gamesCollection = (await database).collection('games')
-  const game = await gamesCollection.find().sort({ _id: -1 }).next()
-  // TODO: Handle missing
+  const game: Game =
+    await gamesCollection.find().sort({ _id: -1 }).next() ||
+    await createGame()
   ctx.body = {
     data: {
       game: serializeGame(game)
@@ -48,8 +49,11 @@ router.get('/latest', async (ctx) => {
 router.get('/:id', async (ctx) => {
   const { id } = ctx.params
   const gamesCollection = (await database).collection('games')
-  const game = await gamesCollection.findOne({ id })
-  // TODO: Handle missing
+  const game: Game | null = await gamesCollection.findOne({ id })
+  if (!game) {
+    ctx.response.status = 404
+    return
+  }
   ctx.body = {
     data: {
       game: serializeGame(game)
