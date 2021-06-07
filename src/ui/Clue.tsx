@@ -5,7 +5,6 @@ import { useAppSelector } from './hooks'
 import { selectCurrentGame } from './gamesSlice'
 
 const Container = styled.span`
-  text-transform: uppercase;
   white-space: nowrap;
 `
 
