@@ -25,7 +25,7 @@ interface Address {
   treasure?: boolean
 }
 
-function serializeGame (game: Game) {
+function serializeGame(game: Game) {
   return {
     id: game.id,
     clues: game.clues.map((clue: Clue) => clue.clue),
@@ -56,7 +56,7 @@ router.get('/:id', async (ctx) => {
   }
 })
 
-async function createGame () {
+async function createGame() {
   const game: Game = { id: '', clues: [], addresses: [] }
   game.id = generateGameId()
   game.addresses = generateAddresses()
@@ -66,22 +66,22 @@ async function createGame () {
   return game
 }
 
-function randomNumber (min: number, max: number) {
+function randomNumber(min: number, max: number) {
   return Math.floor(Math.random() * (max - min) + min)
 }
 
-function randomValue (collection: any[] | string) {
+function randomValue(collection: any[] | string) {
   return collection[randomNumber(0, collection.length - 1)]
 }
 
-function generateGameId () {
+function generateGameId() {
   const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
   let id = ''
   for (let i = 0; i < 4; i++) id += randomValue(chars)
   return id
 }
 
-function generateAddresses () {
+function generateAddresses() {
   const addresses = []
   for (let i = 0; i < 10; i++) {
     let generated: Address
@@ -101,7 +101,7 @@ function generateAddresses () {
 const addressFnames = ["Acorn", "Amber", "Ash"]
 const addressLnames = ["Street", "Avenue", "Lane"]
 
-function generateAddress (): Address {
+function generateAddress(): Address {
   const num = randomNumber(1, 9999)
   const fname = randomValue(addressFnames)
   const lname = randomValue(addressLnames)
@@ -135,7 +135,7 @@ const fnameAssociations: AssociationsMap = {
   }
 }
 
-function generateClues (addresses: Address[]) {
+function generateClues(addresses: Address[]) {
   const clues = []
   let cluesToAdd = Math.min(addresses.length, 5)
   let nextAddress = addresses.find((address) => address.treasure) as Address

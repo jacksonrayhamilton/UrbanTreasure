@@ -11,13 +11,13 @@ import { selectDefaultGame, fetchGame, setDefaultGame } from './gamesSlice'
 
 import Game from './Game'
 
-export default function App () {
+export default function App() {
   const [fetchingGame, setFetchingGame] = useState(false)
   const defaultGame = useAppSelector(selectDefaultGame)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    async function effect () {
+    async function effect() {
       setFetchingGame(true)
       const resultAction = await dispatch(fetchGame())
       if (fetchGame.fulfilled.match(resultAction)) {

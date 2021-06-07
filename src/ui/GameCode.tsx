@@ -10,13 +10,13 @@ const Input = styled.input`
 
 const GID_SIZE = 4
 
-export default function GameCode () {
+export default function GameCode() {
   const history = useHistory()
   const { gid } = useParams<{ gid: string }>()
   const [lastGid, setLastGid] = useState(gid)
   const [lastInputValue, setLastInputValue] = useState(lastGid)
 
-  function handleChange (e: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const newGid = e.target.value
     setLastInputValue(newGid)
     if (newGid.length === GID_SIZE) history.push(`/game/${newGid}/search`)

@@ -3,7 +3,7 @@ import React from 'react'
 import { useAppSelector } from './hooks'
 import { selectCurrentGame } from './gamesSlice'
 
-export default function SearchResults () {
+export default function SearchResults() {
   const currentGame = useAppSelector(selectCurrentGame)
   return currentGame ? (
     <ul>

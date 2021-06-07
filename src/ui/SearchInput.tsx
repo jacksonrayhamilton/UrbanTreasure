@@ -26,7 +26,7 @@ const IconContainer = styled.div`
   svg { width: 1rem; height: 1rem; }
 `
 
-export default function SearchInput () {
+export default function SearchInput() {
   return (
     <InputContainer>
       <Input type="search" />

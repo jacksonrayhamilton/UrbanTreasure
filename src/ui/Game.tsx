@@ -18,7 +18,7 @@ const GameContainer = styled.div`
   padding: 1rem;
 `
 
-export default function Game () {
+export default function Game() {
   const [fetchingGames, setFetchingGames] = useState({})
   const { gid } = useParams<{ gid: string }>()
   const { path, url } = useRouteMatch()
@@ -27,7 +27,7 @@ export default function Game () {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    async function effect () {
+    async function effect() {
       setFetchingGames({ ...fetchingGames, [gid]: true })
       dispatch(fetchGame(gid))
     }

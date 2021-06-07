@@ -9,12 +9,12 @@ const Container = styled.span`
   white-space: nowrap;
 `
 
-export default function Clue () {
+export default function Clue() {
   const currentGame = useAppSelector(selectCurrentGame)
   const clues = currentGame ? currentGame.clues : []
   const [selectedClue, setSelectedClue] = useState(clues.length - 1)
 
-  function handleChange (e: React.ChangeEvent<HTMLSelectElement>) {
+  function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     setSelectedClue(Number(e.target.value))
   }
 

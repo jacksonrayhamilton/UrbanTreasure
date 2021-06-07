@@ -4,11 +4,11 @@ import { useHistory } from 'react-router-dom'
 import { useAppDispatch } from './hooks'
 import { createGame } from './gamesSlice'
 
-export default function NewGame () {
+export default function NewGame() {
   const history = useHistory()
   const dispatch = useAppDispatch()
 
-  async function handleClick () {
+  async function handleClick() {
     const resultAction = await dispatch(createGame())
     if (createGame.fulfilled.match(resultAction)) {
       const { game } = resultAction.payload

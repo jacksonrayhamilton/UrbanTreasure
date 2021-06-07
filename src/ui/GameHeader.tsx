@@ -12,7 +12,7 @@ const HeaderRow = styled.div`
   margin-bottom: .5rem;
 `
 
-export default function GameHeader () {
+export default function GameHeader() {
   return (
     <div>
       <HeaderRow>
