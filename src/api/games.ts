@@ -42,7 +42,7 @@ router.get('/:id', async (ctx) => {
   }
 })
 
-router.post('/', async (ctx) => {
+router.post('/new', async (ctx) => {
   const game = await createGame()
   ctx.body = {
     data: {

@@ -8,5 +8,5 @@ export async function fetchGame(id: string | void) {
 }
 
 export async function createGame() {
-  return (await fetch(`/api/games`, { method: 'POST' })).json()
+  return (await fetch(`/api/games/new`, { method: 'POST' })).json()
 }
