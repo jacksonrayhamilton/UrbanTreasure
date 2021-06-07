@@ -1,4 +1,5 @@
 import Router from 'koa-router'
+import { database } from './db'
 
 const router = new Router({
   prefix: '/api/games'
@@ -28,65 +29,6 @@ interface Address {
   treasure?: boolean
 }
 
-// Data for testing
-const games: GameMap = {
-  'AB12': {
-    id: 'AB12',
-    clues: [
-      {
-        origin: null,
-        clue: 'smelly fig'
-      },
-      {
-        origin: '711 East Park Road',
-        clue: 'hop kitty'
-      }
-    ],
-    addresses: [
-      {
-        address: '711 East Park Road'
-      },
-      {
-        address: '723 East Park Road',
-        clue: 'smelly fig'
-      },
-      {
-        address: '32 Mountainview Lane',
-        treasure: true
-      },
-      {
-        address: '7120 Grove St'
-      }
-    ]
-  },
-  'X25Q': {
-    id: 'X25Q',
-    clues: [
-      {
-        origin: null,
-        clue: 'rabbit feet'
-      },
-      {
-        origin: '97 Linda St',
-        clue: 'pickle salad'
-      }
-    ],
-    addresses: [
-      {
-        address: '97 Linda St',
-        clue: 'pickle salad'
-      },
-      {
-        address: '7553 Indian Spring St'
-      },
-      {
-        address: '13 Roosevelt Drive',
-        treasure: true
-      }
-    ]
-  }
-}
-
 function serializeGame (game: Game) {
   return {
     id: game.id,
@@ -95,27 +37,27 @@ function serializeGame (game: Game) {
   }
 }
 
-// TODO: Fetch the latest game dynamically.
-router.get('/latest', (ctx, next) => {
+router.get('/latest', async (ctx) => {
+  const gamesCollection = (await database).collection('games')
+  const game = await gamesCollection.find().sort({ _id: -1 }).next()
+  // TODO: Handle missing
   ctx.body = {
     data: {
-      game: serializeGame(games['X25Q'])
+      game: serializeGame(game)
     }
   }
-  next()
 })
 
-// TODO: Fetch a game by ID dynamically.
-router.get('/:id', (ctx, next) => {
+router.get('/:id', async (ctx) => {
   const { id } = ctx.params
-  if (Object.prototype.hasOwnProperty.call(games, id)) {
-    ctx.body = {
-      data: {
-        game: serializeGame(games[id])
-      }
+  const gamesCollection = (await database).collection('games')
+  const game = await gamesCollection.findOne({ id })
+  // TODO: Handle missing
+  ctx.body = {
+    data: {
+      game: serializeGame(game)
     }
   }
-  next()
 })
 
 async function createGame () {
@@ -123,8 +65,8 @@ async function createGame () {
   game.id = generateGameId()
   game.addresses = generateAddresses()
   game.clues = generateClues(game.addresses)
-  // TODO: Implement this:
-  // await database.save(game.id, game)
+  const gamesCollection = (await database).collection('games')
+  await gamesCollection.insertOne(game)
   return game
 }
 

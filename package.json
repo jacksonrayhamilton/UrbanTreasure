@@ -9,12 +9,14 @@
   },
   "dependencies": {
     "koa": "^2.13.1",
-    "koa-router": "^10.0.0"
+    "koa-router": "^10.0.0",
+    "mongodb": "^3.6.9"
   },
   "devDependencies": {
     "@reduxjs/toolkit": "^1.5.1",
     "@types/koa": "^2.13.3",
     "@types/koa-router": "^7.4.2",
+    "@types/mongodb": "^3.6.17",
     "@types/react": "^17.0.8",
     "@types/react-dom": "^17.0.5",
     "@types/react-router-dom": "^5.1.7",
