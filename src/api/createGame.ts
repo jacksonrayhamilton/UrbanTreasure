@@ -1,15 +1,12 @@
 import { Game, Clue, Address } from './types'
 import { randomNumber, randomValue } from './util'
-import { database } from './db'
 import { streetNames, streetSuffixes, wordAssociations } from './data'
 
-export default async function createGame() {
+export default function createGame() {
   const game: Game = { id: '', clues: [], addresses: [] }
   game.id = generateGameId()
   game.addresses = generateAddresses()
   game.clues = generateClues(game.addresses)
-  const gamesCollection = (await database).collection('games')
-  await gamesCollection.insertOne(game)
   return game
 }
 

@@ -7,6 +7,13 @@ const router = new Router({
   prefix: '/api/games'
 })
 
+async function createAndSaveGame() {
+  const game = createGame()
+  const gamesCollection = (await database).collection('games')
+  await gamesCollection.insertOne(game)
+  return game
+}
+
 function serializeGame(game: Game) {
   return {
     id: game.id,
@@ -19,7 +26,7 @@ router.get('/latest', async (ctx) => {
   const gamesCollection = (await database).collection('games')
   const game: Game =
     await gamesCollection.find().sort({ _id: -1 }).next() ||
-    await createGame()
+    await createAndSaveGame()
   ctx.body = {
     data: {
       game: serializeGame(game)
@@ -43,7 +50,7 @@ router.get('/:id', async (ctx) => {
 })
 
 router.post('/new', async (ctx) => {
-  const game = await createGame()
+  const game = await createAndSaveGame()
   ctx.body = {
     data: {
       game: serializeGame(game)
