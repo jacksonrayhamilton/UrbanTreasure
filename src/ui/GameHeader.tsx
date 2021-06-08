@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { Game } from './types'
+
 import Clue from './Clue'
 import GameCode from './GameCode'
 import SearchInput from './SearchInput'
@@ -12,11 +14,16 @@ const HeaderRow = styled.div`
   margin-bottom: .5rem;
 `
 
-export default function GameHeader() {
+interface GameProps {
+  game: Game
+}
+
+export default function GameHeader({ game }: GameProps) {
+  const { clues } = game
   return (
     <div>
       <HeaderRow>
-        <Clue />
+        <Clue clues={clues} />
         <GameCode />
       </HeaderRow>
       <HeaderRow>

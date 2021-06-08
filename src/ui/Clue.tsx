@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { useAppSelector } from './hooks'
-import { selectCurrentGame } from './gamesSlice'
-
 const Container = styled.span`
   white-space: nowrap;
 `
 
-export default function Clue() {
-  const currentGame = useAppSelector(selectCurrentGame)
-  const clues = currentGame ? currentGame.clues : []
+interface ClueProps {
+  clues: string[]
+}
+
+export default function Clue({ clues }: ClueProps) {
   const [selectedClue, setSelectedClue] = useState(clues.length - 1)
 
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {

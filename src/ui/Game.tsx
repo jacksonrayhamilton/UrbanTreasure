@@ -44,7 +44,7 @@ export default function Game() {
 
   return currentGame ? (
     <GameContainer>
-      <GameHeader />
+      <GameHeader game={currentGame} />
       <Switch>
         <Route exact path={path}>
           <Redirect to={`${url}/search`} />

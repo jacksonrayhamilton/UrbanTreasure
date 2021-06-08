@@ -1,13 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { RootState } from './store'
 
+import { Game } from './types'
 import * as API from './API'
-
-interface Game {
-  id: string
-  clues: string[],
-  addresses: string[]
-}
 
 interface GamesState {
   defaultGame: Game | void
