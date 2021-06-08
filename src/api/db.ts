@@ -9,4 +9,5 @@ const client = new MongoClient(uri, {
 })
 client.connect()
 
-export const database = client.db('urbantreasure')
+const database = client.db('urbantreasure')
+export const gamesCollection = database.collection('games')

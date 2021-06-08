@@ -1,6 +1,6 @@
 import Router from 'koa-router'
 import { Game, Clue, Address } from './types'
-import { database } from './db'
+import { gamesCollection } from './db'
 import createGame from './createGame'
 
 const router = new Router({
@@ -9,7 +9,6 @@ const router = new Router({
 
 async function createAndSaveGame() {
   const game = createGame()
-  const gamesCollection = database.collection('games')
   await gamesCollection.insertOne(game)
   return game
 }
@@ -23,7 +22,6 @@ function serializeGame(game: Game) {
 }
 
 router.get('/latest', async (ctx) => {
-  const gamesCollection = database.collection('games')
   const game: Game =
     await gamesCollection.find().sort({ _id: -1 }).next() ||
     await createAndSaveGame()
@@ -36,7 +34,6 @@ router.get('/latest', async (ctx) => {
 
 router.get('/:id', async (ctx) => {
   const { id } = ctx.params
-  const gamesCollection = database.collection('games')
   const game: Game | null = await gamesCollection.findOne({ id })
   if (!game) {
     ctx.response.status = 404
