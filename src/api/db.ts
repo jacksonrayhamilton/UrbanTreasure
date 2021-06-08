@@ -3,12 +3,10 @@ import { MongoClient } from 'mongodb'
 const uri =
   'mongodb://mongodb:27017?retryWrites=true&writeConcern=majority'
 
-export const client = new MongoClient(uri, {
+const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
+client.connect()
 
-export const database = (async () => {
-  await client.connect()
-  return client.db('urbantreasure')
-})()
+export const database = client.db('urbantreasure')
