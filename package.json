@@ -1,10 +1,10 @@
 {
   "private": true,
-  "main": "./dist/server.js",
+  "main": "./dist/api/server.js",
   "scripts": {
-    "build": "tsc --project tsconfig-api.json && NODE_ENV=production webpack",
-    "develop": "npm-run-all --parallel develop:api develop:ui",
-    "develop:api": "tsc --project tsconfig-api.json --watch",
+    "build": "tsc && NODE_ENV=production webpack",
+    "develop": "npm-run-all --parallel develop:ts develop:ui",
+    "develop:ts": "tsc --watch",
     "develop:ui": "NODE_ENV=development webpack --watch"
   },
   "dependencies": {
