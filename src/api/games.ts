@@ -53,6 +53,7 @@ router.post('/new', async (ctx) => {
       game: serializeGame(game)
     }
   }
+  ctx.response.status = 201
 })
 
 export default router
