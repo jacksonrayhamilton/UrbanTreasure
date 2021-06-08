@@ -5,7 +5,8 @@
     "build": "tsc && NODE_ENV=production webpack",
     "develop": "npm-run-all --parallel develop:ts develop:ui",
     "develop:ts": "tsc --watch",
-    "develop:ui": "NODE_ENV=development webpack --watch"
+    "develop:ui": "NODE_ENV=development webpack --watch",
+    "test": "jest"
   },
   "dependencies": {
     "koa": "^2.13.1",
@@ -14,7 +15,10 @@
   },
   "devDependencies": {
     "@reduxjs/toolkit": "^1.5.1",
+    "@testing-library/jest-dom": "^5.13.0",
+    "@testing-library/react": "^11.2.7",
     "@tsconfig/recommended": "^1.0.1",
+    "@types/jest": "^26.0.23",
     "@types/koa": "^2.13.3",
     "@types/koa-router": "^7.4.2",
     "@types/mongodb": "^3.6.17",
@@ -23,6 +27,7 @@
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.9",
     "css-loader": "^5.2.6",
+    "jest": "^27.0.4",
     "normalize.css": "^8.0.1",
     "npm-run-all": "^4.1.5",
     "react": "^17.0.2",
