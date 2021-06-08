@@ -6,10 +6,19 @@ import { selectCurrentGame } from './gamesSlice'
 export default function SearchResults() {
   const currentGame = useAppSelector(selectCurrentGame)
   return currentGame ? (
-    <ul>
-      {currentGame.addresses.map((address) =>
-        <li key={address}>{address}</li>
-      )}
-    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        {currentGame.addresses.map((address) =>
+          <tr key={address}>
+            <td>{address}</td>
+          </tr>
+        )}
+      </tbody>
+    </table>
   ) : null
 }
