@@ -7,7 +7,9 @@ services:
     ports:
       - '27017:27017'
   nodejs:
-    build: .
+    build:
+      context: .
+      dockerfile: nodejs.Dockerfile
     volumes:
       - ./dist/:/usr/src/app/dist
     expose:
