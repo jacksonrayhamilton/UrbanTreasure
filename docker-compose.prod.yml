@@ -7,17 +7,13 @@ services:
     expose:
       - '27017'
   nodejs:
-    build:
-      context: .
-      dockerfile: nodejs.prod.Dockerfile
+    image: jacksonrayhamilton/urbantreasure-nodejs
     expose:
       - '3000'
     depends_on:
       - mongodb
   nginx:
-    build:
-      context: .
-      dockerfile: nginx.Dockerfile
+    image: jacksonrayhamilton/urbantreasure-nginx
     ports:
       - '80:80'
     depends_on:
