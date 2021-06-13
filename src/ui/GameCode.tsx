@@ -33,11 +33,11 @@ export default function GameCode({ gid }: GameCodeProps) {
   })
 
   return (
-    <span>
+    <label>
       Game Code: <Input
                    onChange={handleChange}
                    value={lastInputValue}
                    maxLength={4} />
-    </span>
+    </label>
   )
 }
