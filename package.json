@@ -6,7 +6,8 @@
     "develop": "npm-run-all --parallel develop:ts develop:ui",
     "develop:ts": "tsc --watch",
     "develop:ui": "NODE_ENV=development webpack --watch",
-    "test": "jest"
+    "test": "jest",
+    "tdd": "jest --watch"
   },
   "dependencies": {
     "koa": "^2.13.1",
