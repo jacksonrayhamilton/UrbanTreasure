@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@reduxjs/toolkit": "^1.5.1",
+    "@shelf/jest-mongodb": "^1.2.5",
     "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
     "@tsconfig/recommended": "^1.0.1",
