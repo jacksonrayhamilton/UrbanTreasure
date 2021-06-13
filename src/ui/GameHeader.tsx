@@ -1,4 +1,5 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Game } from './types'
@@ -19,12 +20,13 @@ interface GameProps {
 }
 
 export default function GameHeader({ game }: GameProps) {
+  const { gid } = useParams<{ gid: string }>()
   const { clues } = game
   return (
     <div>
       <HeaderRow>
         <Clue clues={clues} />
-        <GameCode />
+        <GameCode gid={gid} />
       </HeaderRow>
       <HeaderRow>
         <SearchInput />

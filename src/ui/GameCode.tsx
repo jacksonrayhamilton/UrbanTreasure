@@ -10,9 +10,12 @@ const Input = styled.input`
 
 const GID_SIZE = 4
 
-export default function GameCode() {
+interface GameCodeProps {
+  gid: string
+}
+
+export default function GameCode({ gid }: GameCodeProps) {
   const history = useHistory()
-  const { gid } = useParams<{ gid: string }>()
   const [lastGid, setLastGid] = useState(gid)
   const [lastInputValue, setLastInputValue] = useState(lastGid)
 
