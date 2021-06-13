@@ -1,3 +1,7 @@
+import { client } from './db'
+
+client.connect()
+
 import Koa from 'koa'
 const app = new Koa
 
