@@ -1,4 +1,9 @@
 {
   "watch": ["dist"],
-  "ignore": ["dist/public_html"]
+  "ignore": [
+    "dist/public_html",
+    "dist/ui",
+    "__mocks__/*",
+    "__tests__/*"
+  ]
 }
