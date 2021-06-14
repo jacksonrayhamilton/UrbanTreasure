@@ -15,7 +15,9 @@ beforeAll(() => {
 })
 
 describe('GET /api/games/:id', () => {
-  // TODO: Disable mocks here and use in-memory MongoDB.
+  beforeAll(async () => {
+    await gamesCollection.insertOne({ id: 'G200', clues: [], addresses: [] })
+  })
 
   it('responds with 404 when the game doesn\'t exist', async () => {
     const response = await request(app.callback()).get('/api/games/G404')
@@ -31,7 +33,10 @@ describe('GET /api/games/:id', () => {
 describe('POST /api/games/new', () => {
   it('creates a new game', async () => {
     const response = await request(app.callback()).post('/api/games/new')
-    expect(gamesCollection.insertOne).toHaveBeenCalled()
     expect(response.status).toBe(201)
+    expect(response.body).toMatchObject({ data: { game: {}}})
+    expect(typeof response.body.data.game.id).toBe('string')
+    const { id } = response.body.data.game
+    expect(await gamesCollection.findOne({ id })).not.toBe(null)
   })
 })
