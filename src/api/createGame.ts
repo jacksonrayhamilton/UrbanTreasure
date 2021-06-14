@@ -2,12 +2,11 @@ import { Game, Clue, Address } from './types'
 import { randomNumber, randomValue } from './util'
 import { streetNames, streetSuffixes, wordAssociations } from './data'
 
-export default function createGame() {
-  const game: Game = { id: '', clues: [], addresses: [] }
-  game.id = generateGameId()
-  game.addresses = generateAddresses()
-  game.clues = generateClues(game.addresses)
-  return game
+export default function createGame(): Game {
+  const id = generateGameId()
+  const addresses = generateAddresses()
+  const clues = generateClues(addresses)
+  return { id, addresses, clues }
 }
 
 function generateGameId() {
