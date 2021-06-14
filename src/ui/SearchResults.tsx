@@ -1,11 +1,16 @@
 import React from 'react'
+import { Link, useParams } from 'react-router-dom'
 
-import { useAppSelector } from './hooks'
-import { selectCurrentGame } from './gamesSlice'
+import { Game } from './types'
 
-export default function SearchResults() {
-  const currentGame = useAppSelector(selectCurrentGame)
-  return currentGame ? (
+interface SearchResultsProps {
+  game: Game
+}
+
+export default function SearchResults({ game }: SearchResultsProps) {
+  const { gid } = useParams<{ gid: string }>()
+  const { addresses } = game
+  return (
     <table>
       <thead>
         <tr>
@@ -13,12 +18,12 @@ export default function SearchResults() {
         </tr>
       </thead>
       <tbody>
-        {currentGame.addresses.map((address) =>
+        {addresses.map((address) =>
           <tr key={address}>
-            <td>{address}</td>
+            <td><Link to={`/game/${gid}/address/${encodeURIComponent(address)}`}>{address}</Link></td>
           </tr>
         )}
       </tbody>
     </table>
-  ) : null
+  )
 }

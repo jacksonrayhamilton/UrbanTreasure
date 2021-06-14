@@ -50,7 +50,7 @@ export default function Game() {
           <Redirect to={`${url}/search`} />
         </Route>
         <Route path={`${path}/search`}>
-          <SearchResults />
+          <SearchResults game={currentGame} />
         </Route>
       </Switch>
     </GameContainer>
