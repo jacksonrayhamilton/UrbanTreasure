@@ -32,10 +32,10 @@ export const gamesSlice = createSlice({
   name: 'games',
   initialState,
   reducers: {
-    setDefaultGame (state, action) { state.defaultGame = action.payload },
-    setCurrentGame (state, action) { state.currentGame = action.payload }
+    setDefaultGame(state, action) { state.defaultGame = action.payload },
+    setCurrentGame(state, action) { state.currentGame = action.payload }
   },
-  extraReducers (builder) {
+  extraReducers(builder) {
     builder.addCase(fetchGame.fulfilled, (state, action) => {
       const { game } = action.payload
       const { id } = game
