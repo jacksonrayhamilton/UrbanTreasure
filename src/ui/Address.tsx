@@ -5,26 +5,29 @@ import { useAppSelector, useAppDispatch } from './hooks'
 import { setFetchingAddress, fetchAddress } from './addressesSlice'
 
 export default function Address() {
-  const { gid, address } = useParams<{ gid: string, address: string }>()
+  const { gid, address: addressParam } =
+    useParams<{ gid: string, address: string }>()
   const routedAddress =
     useAppSelector(({ addresses }) =>
-      addresses.addresses[`${gid}/${address}`])
+      addresses.addresses[`${gid}/${addressParam}`])
   const isFetchingRoutedAddress =
     useAppSelector(({ addresses }) =>
-      addresses.isFetchingAddress[`${gid}/${address}`])
+      addresses.isFetchingAddress[`${gid}/${addressParam}`])
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (routedAddress || isFetchingRoutedAddress) return
-    dispatch(setFetchingAddress({ gid, address }))
-    dispatch(fetchAddress({ gid, address }))
+    dispatch(setFetchingAddress({ gid, address: addressParam }))
+    dispatch(fetchAddress({ gid, address: addressParam }))
   })
 
-  return routedAddress ? (
+  if (!routedAddress) return null
+  const { address, clue, treasure } = routedAddress
+  return (
     <>
-      <h1>{routedAddress.address}</h1>
-      {routedAddress.clue ? <div><b>Clue:</b> “{routedAddress.clue}”</div> : null}
-      {routedAddress.treasure ? <div>Congrats, you found the treasure!</div> : null}
+      <h1>{address}</h1>
+      {clue ? <div><b>Clue:</b> “{clue}”</div> : null}
+      {treasure ? <div>Congrats, you found the treasure!</div> : null}
     </>
-  ) : null
+  )
 }
