@@ -24,6 +24,7 @@ export default function Address() {
     <>
       <h1>{routedAddress.address}</h1>
       {routedAddress.clue ? <div><b>Clue:</b> “{routedAddress.clue}”</div> : null}
+      {routedAddress.treasure ? <div>Congrats, you found the treasure!</div> : null}
     </>
   ) : null
 }

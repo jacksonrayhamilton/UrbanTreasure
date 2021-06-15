@@ -7,4 +7,5 @@ export interface Game {
 export interface Address {
   address: string
   clue?: string
+  treasure?: boolean
 }
