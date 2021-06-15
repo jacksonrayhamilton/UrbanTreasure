@@ -13,6 +13,7 @@ import { selectCurrentGame, fetchGame, setCurrentGame } from './gamesSlice'
 
 import GameHeader from './GameHeader'
 import SearchResults from './SearchResults'
+import Address from './Address'
 
 const GameContainer = styled.div`
   padding: 1rem;
@@ -51,6 +52,12 @@ export default function Game() {
         </Route>
         <Route path={`${path}/search`}>
           <SearchResults game={currentGame} />
+        </Route>
+        <Route exact path={`${path}/address`}>
+          <Redirect to={`${url}`} />
+        </Route>
+        <Route path={`${path}/address/:address`}>
+          <Address />
         </Route>
       </Switch>
     </GameContainer>

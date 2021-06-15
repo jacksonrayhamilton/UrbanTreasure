@@ -3,3 +3,8 @@ export interface Game {
   clues: string[]
   addresses: string[]
 }
+
+export interface Address {
+  address: string
+  clue?: string
+}
