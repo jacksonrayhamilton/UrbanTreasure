@@ -26,6 +26,7 @@ export default function Address() {
   return (
     <>
       <h1>{address}</h1>
+      {!(clue || treasure) ? <div>Nothing to see here.</div> : null}
       {clue ? <div><b>Clue:</b> “{clue}”</div> : null}
       {treasure ? <div>Congrats, you found the treasure!</div> : null}
     </>
