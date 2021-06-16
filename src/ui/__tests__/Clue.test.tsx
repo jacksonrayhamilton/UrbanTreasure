@@ -1,5 +1,5 @@
 import React from 'react'
-import { cleanup, render } from '../test-util'
+import { cleanup, render, fireEvent } from '../test-util'
 
 import Clue from '../Clue'
 
@@ -12,4 +12,17 @@ it('renders the last clue by default', () => {
   ]
   const { getByText } = render(<Clue clues={clues} />)
   expect(getByText(/Clue #2/)).toBeInTheDocument()
+})
+
+it('renders missing clues', () => {
+  const clues = [
+    'Clue #1',
+    null,
+    'Clue #3'
+  ]
+  const { getByTestId, getByText, rerender } = render(<Clue clues={clues} />)
+  const select = getByTestId('select')
+  fireEvent.change(select, { target: { value: '1' } })
+  rerender(<Clue clues={clues} />)
+  expect(getByText(/\?\?\?/)).toBeInTheDocument()
 })

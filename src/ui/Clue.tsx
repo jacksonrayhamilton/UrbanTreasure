@@ -6,7 +6,7 @@ const Container = styled.span`
 `
 
 interface ClueProps {
-  clues: string[]
+  clues: (string | null)[]
 }
 
 export default function Clue({ clues }: ClueProps) {
@@ -19,6 +19,7 @@ export default function Clue({ clues }: ClueProps) {
   return (
     <Container>
       <select
+        data-testid="select"
         onChange={handleChange}
         defaultValue={selectedClue}>
         {clues.map((_clue, index) =>
@@ -26,7 +27,7 @@ export default function Clue({ clues }: ClueProps) {
             Clue {index + 1}
           </option>
         )}
-      </select> “{clues[selectedClue]}”
+      </select> {clues[selectedClue] ? <>“{clues[selectedClue]}”</> : <>???</>}
     </Container>
   )
 }
