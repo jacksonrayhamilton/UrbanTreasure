@@ -17,7 +17,7 @@ async function createAndSaveGame() {
 function serializeGame(game: Game) {
   return {
     id: game.id,
-    clues: game.clues.map((clue: Clue) => clue.clue),
+    clues: game.clues.slice(0, 1).map((clue: Clue) => clue.clue),
     addresses: game.addresses.map((address: Address) => address.address)
   }
 }
