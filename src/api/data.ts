@@ -21,12 +21,7 @@ interface AssociationsMap {
   [key: string]: Associations
 }
 
-interface Associations {
-  noun: string[]
-  adjective: string[],
-  verb: string[],
-  adverb: string[]
-}
+type Associations = string[]
 
 const customWordAssociations = path.join(__dirname, 'data/word-associations.json')
 const defaultWordAssociations = path.join(__dirname, 'data/default/word-associations.json')

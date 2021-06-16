@@ -1,79 +1,107 @@
 {
-  "Brook": {
-    "noun": [
-      "Trout",
-      "Tributary",
-      "Roaring",
-      "Pond",
-      "Watershed",
-      "Stream",
-      "Beaver",
-      "Mill",
-      "Murmur",
-      "Waterfall"
-    ],
-    "adjective": [
-      "Upstream",
-      "Flowing",
-      "Muddy"
-    ],
-    "verb": [
-      "Flow",
-      "Bubble",
-      "Bathe"
-    ],
-    "adverb": []
-  },
-  "Market": {
-    "noun": [
-      "Consumer",
-      "Product",
-      "Buyer",
-      "Vendor"
-    ],
-    "adjective": [
-      "Affordable",
-      "Luxury",
-      "Inexpensive"
-    ],
-    "verb": [
-      "Price",
-      "Manufacture",
-      "Export",
-      "Sell"
-    ],
-    "adverb": [
-      "Commercially",
-      "Locally",
-      "Economically"
-    ]
-  },
-  "Oak": {
-    "noun": [
-      "Leaf",
-      "Woodland",
-      "Scrub",
-      "Tree",
-      "Thicket"
-    ],
-    "adjective": [
-      "Deciduous",
-      "Planted",
-      "Wooded",
-      "Poison",
-      "Forested",
-      "Leafy",
-      "Shady"
-    ],
-    "verb": [
-      "Carve",
-      "Shade",
-      "Overgrow",
-      "Plant"
-    ],
-    "adverb": [
-      "Thickly",
-      "Richly"
-    ]
-  }
+  "Beaver": [
+    "Rodent",
+    "Otter",
+    "Moose",
+    "Squirrel",
+    "Capybara"
+  ],
+  "Delta": [
+    "Yangtze",
+    "Tributary",
+    "Basin",
+    "Irrawaddy",
+    "Mekong"
+  ],
+  "Elmwood": [
+    "Elm",
+    "Riverdale",
+    "Woodlawn",
+    "Riverview",
+    "Lakeview"
+  ],
+  "Emerald": [
+    "Gemstone",
+    "Gem",
+    "Ruby",
+    "Green",
+    "Beryl"
+  ],
+  "Flax": [
+    "Linen",
+    "Linum",
+    "Hemp",
+    "Herb",
+    "Barley"
+  ],
+  "Granite": [
+    "Quartz",
+    "Limestone",
+    "Basalt",
+    "Stone",
+    "Marble"
+  ],
+  "Grime": [
+    "Filth",
+    "Dirt",
+    "Dirty",
+    "Grease",
+    "Foul"
+  ],
+  "Ivory": [
+    "Tusk",
+    "Pearl",
+    "Dentine",
+    "Tusks",
+    "Narwhal"
+  ],
+  "Lily": [
+    "Daisy",
+    "Flower",
+    "Jasmine",
+    "Raceme",
+    "Fritillaria"
+  ],
+  "Noble": [
+    "Royal",
+    "Nobility",
+    "Lord",
+    "Honorable",
+    "Grand"
+  ],
+  "Railway": [
+    "Rail",
+    "Railroad",
+    "Track",
+    "Tram",
+    "Line"
+  ],
+  "Ranger": [
+    "Firefighter",
+    "Commando",
+    "Sergeant",
+    "Commander",
+    "Hunter"
+  ],
+  "Ruby": [
+    "Sapphire",
+    "Red",
+    "Emerald",
+    "Scarlet",
+    "Crimson"
+  ],
+  "Starlight": [
+    "Moonlight",
+    "Light",
+    "Sunlight",
+    "Sun",
+    "Luminosity"
+  ],
+  "Terrace": [
+    "Patio",
+    "Balcony",
+    "Veranda",
+    "Courtyard",
+    "Garden"
+  ]
 }

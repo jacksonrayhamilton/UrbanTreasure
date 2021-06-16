@@ -63,11 +63,6 @@ function generateClues(addresses: Address[]) {
 
 function generateClue(address: Address): Clue {
   const associations = wordAssociations[address.streetName]
-  const clue = randomValue(Array.prototype.concat.call(
-    associations.noun,
-    associations.adjective,
-    associations.verb,
-    associations.adverb
-  ))
+  const clue = randomValue(associations)
   return { origin: null, clue }
 }
