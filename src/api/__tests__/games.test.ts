@@ -16,7 +16,17 @@ beforeAll(() => {
 
 describe('GET /api/games/:id', () => {
   beforeAll(async () => {
-    await gamesCollection.insertOne({ id: 'G200', clues: [], addresses: [] })
+    await gamesCollection.insertOne({
+      id: 'G200',
+      clues: [
+        { origin: null, clue: 'Blue' },
+        { origin: '1111 Bluish Way', clue: 'Green' }
+      ],
+      addresses: [
+        { address: '1111 Bluish Way', clue: 'Green' },
+        { address: '2222 Greenish Lane', treasure: true }
+      ]
+    })
   })
 
   it('responds with 404 when the game doesn\'t exist', async () => {
@@ -28,6 +38,14 @@ describe('GET /api/games/:id', () => {
     const response = await request(app.callback()).get('/api/games/G200')
     expect(response.status).toBe(200)
   })
+
+  it('returns only the first clue', async () => {
+    const response = await request(app.callback()).get('/api/games/G200')
+    expect(response.body).toMatchObject({ data: { game: {} } })
+    expect(Array.isArray(response.body.data.game.clues)).toBe(true)
+    expect(response.body.data.game.clues).toHaveLength(1)
+    expect(response.body.data.game.clues[0]).toBe('Blue')
+  })
 })
 
 describe('POST /api/games/new', () => {
@@ -38,5 +56,12 @@ describe('POST /api/games/new', () => {
     expect(typeof response.body.data.game.id).toBe('string')
     const { id } = response.body.data.game
     expect(await gamesCollection.findOne({ id })).not.toBe(null)
+  })
+
+  it('returns only the first clue', async () => {
+    const response = await request(app.callback()).post('/api/games/new')
+    expect(response.body).toMatchObject({ data: { game: {} } })
+    expect(Array.isArray(response.body.data.game.clues)).toBe(true)
+    expect(response.body.data.game.clues).toHaveLength(1)
   })
 })
