@@ -75,6 +75,44 @@ describe('GET /api/games/:id', () => {
     expect(response.body.data.game.clues[1]).toBe(null)
     expect(response.body.data.game.clues[2]).toBe('Red')
   })
+
+  describe('GET /api/games/:id/clues', () => {
+    it('returns the first clue', async () => {
+      const response =
+        await request(app.callback()).get('/api/games/G200/clues')
+      expect(response.body).toMatchObject({ data: { game: { id: 'G200' } } })
+      expect(Array.isArray(response.body.data.game.clues)).toBe(true)
+      expect(response.body.data.game.clues).toHaveLength(1)
+      expect(response.body.data.game.clues[0]).toBe('Blue')
+    })
+
+    it('returns additional clues for addresses', async () => {
+      const response =
+        await request(app.callback())
+          .get('/api/games/G200/clues' +
+            `?clue=${encodeURIComponent('1111 Bluish Way')}` +
+            `&clue=${encodeURIComponent('2222 Greenish Lane')}`)
+      expect(response.body).toMatchObject({ data: { game: { id: 'G200' } } })
+      expect(Array.isArray(response.body.data.game.clues)).toBe(true)
+      expect(response.body.data.game.clues).toHaveLength(3)
+      expect(response.body.data.game.clues[0]).toBe('Blue')
+      expect(response.body.data.game.clues[1]).toBe('Green')
+      expect(response.body.data.game.clues[2]).toBe('Red')
+    })
+
+    it('omits intermediate unknown clues', async () => {
+      const response =
+        await request(app.callback())
+          .get('/api/games/G200/clues' +
+            `?clue=${encodeURIComponent('2222 Greenish Lane')}`)
+      expect(response.body).toMatchObject({ data: { game: { id: 'G200' } } })
+      expect(Array.isArray(response.body.data.game.clues)).toBe(true)
+      expect(response.body.data.game.clues).toHaveLength(3)
+      expect(response.body.data.game.clues[0]).toBe('Blue')
+      expect(response.body.data.game.clues[1]).toBe(null)
+      expect(response.body.data.game.clues[2]).toBe('Red')
+    })
+  })
 })
 
 describe('POST /api/games/new', () => {
