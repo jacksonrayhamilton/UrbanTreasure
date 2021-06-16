@@ -34,7 +34,7 @@ describe('POST /api/games/new', () => {
   it('creates a new game', async () => {
     const response = await request(app.callback()).post('/api/games/new')
     expect(response.status).toBe(201)
-    expect(response.body).toMatchObject({ data: { game: {}}})
+    expect(response.body).toMatchObject({ data: { game: {} } })
     expect(typeof response.body.data.game.id).toBe('string')
     const { id } = response.body.data.game
     expect(await gamesCollection.findOne({ id })).not.toBe(null)
