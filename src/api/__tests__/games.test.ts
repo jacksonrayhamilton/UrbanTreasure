@@ -8,10 +8,6 @@ import { getGamesCollection } from '../db'
 const app = new Koa
 app.use(games.routes())
 
-function serializeClueParams(...addresses: string[]) {
-  return addresses.map(encodeURIComponent).join(',')
-}
-
 let gamesCollection: Collection
 
 beforeAll(() => {
@@ -56,8 +52,9 @@ describe('GET /api/games/:id', () => {
   it('returns additional clues for addresses', async () => {
     const response =
       await request(app.callback())
-        .get('/api/games/G200?clues=' +
-          serializeClueParams('1111 Bluish Way', '2222 Greenish Lane'))
+        .get('/api/games/G200' +
+          `?clue=${encodeURIComponent('1111 Bluish Way')}` +
+          `&clue=${encodeURIComponent('2222 Greenish Lane')}`)
     expect(response.body).toMatchObject({ data: { game: {} } })
     expect(Array.isArray(response.body.data.game.clues)).toBe(true)
     expect(response.body.data.game.clues).toHaveLength(3)
