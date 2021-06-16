@@ -8,6 +8,10 @@ import { getGamesCollection } from '../db'
 const app = new Koa
 app.use(games.routes())
 
+function serializeClueParams(...addresses: string[]) {
+  return addresses.map(encodeURIComponent).join(',')
+}
+
 let gamesCollection: Collection
 
 beforeAll(() => {
@@ -20,11 +24,13 @@ describe('GET /api/games/:id', () => {
       id: 'G200',
       clues: [
         { origin: null, clue: 'Blue' },
-        { origin: '1111 Bluish Way', clue: 'Green' }
+        { origin: '1111 Bluish Way', clue: 'Green' },
+        { origin: '2222 Greenish Lane', clue: 'Red' }
       ],
       addresses: [
         { address: '1111 Bluish Way', clue: 'Green' },
-        { address: '2222 Greenish Lane', treasure: true }
+        { address: '2222 Greenish Lane', clue: 'Red' },
+        { address: '3333 Reddish Street', treasure: true }
       ]
     })
   })
@@ -45,6 +51,19 @@ describe('GET /api/games/:id', () => {
     expect(Array.isArray(response.body.data.game.clues)).toBe(true)
     expect(response.body.data.game.clues).toHaveLength(1)
     expect(response.body.data.game.clues[0]).toBe('Blue')
+  })
+
+  it('returns additional clues for addresses', async () => {
+    const response =
+      await request(app.callback())
+        .get('/api/games/G200?clues=' +
+          serializeClueParams('1111 Bluish Way', '2222 Greenish Lane'))
+    expect(response.body).toMatchObject({ data: { game: {} } })
+    expect(Array.isArray(response.body.data.game.clues)).toBe(true)
+    expect(response.body.data.game.clues).toHaveLength(3)
+    expect(response.body.data.game.clues[0]).toBe('Blue')
+    expect(response.body.data.game.clues[1]).toBe('Green')
+    expect(response.body.data.game.clues[2]).toBe('Red')
   })
 })
 
