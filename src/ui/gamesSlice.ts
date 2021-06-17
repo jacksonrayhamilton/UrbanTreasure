@@ -13,11 +13,15 @@ interface GamesState {
   clueAddresses: ClueAddresses
 }
 
-const initialState: GamesState = {
-  defaultGame: undefined,
-  currentGame: undefined,
-  games: {},
-  clueAddresses: {}
+const initialState = createInitialGamesState()
+
+export function createInitialGamesState(): GamesState {
+  return {
+    defaultGame: undefined,
+    currentGame: undefined,
+    games: {},
+    clueAddresses: {}
+  }
 }
 
 export const fetchGame =

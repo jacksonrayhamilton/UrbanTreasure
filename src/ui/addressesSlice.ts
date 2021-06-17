@@ -8,9 +8,13 @@ interface AddressesState {
   isFetchingAddress: Record<string, boolean>
 }
 
-const initialState: AddressesState = {
-  addresses: {},
-  isFetchingAddress: {}
+const initialState = createInitialAddressesState()
+
+export function createInitialAddressesState(): AddressesState {
+  return {
+    addresses: {},
+    isFetchingAddress: {}
+  }
 }
 
 interface FetchAddressAction {
