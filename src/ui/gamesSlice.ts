@@ -4,11 +4,13 @@ import type { RootState } from './store'
 import { Game } from './types'
 import * as API from './API'
 
+type ClueAddresses = Record<string, string[]>
+
 interface GamesState {
   defaultGame: Game | void
   currentGame: Game | void
   games: Record<string, Game>
-  clueAddresses: Record<string, string[]>
+  clueAddresses: ClueAddresses
 }
 
 const initialState: GamesState = {
