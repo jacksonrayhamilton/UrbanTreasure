@@ -12,7 +12,14 @@ it('renders the routed address', () => {
     games: {
       defaultGame: undefined,
       currentGame: undefined,
-      games: {}
+      games: {
+        'ABCD': {
+          id: '',
+          clues: [''],
+          addresses: ['']
+        }
+      },
+      clueAddresses: {}
     },
     addresses: {
       addresses: {

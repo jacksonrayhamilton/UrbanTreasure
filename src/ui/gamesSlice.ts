@@ -8,12 +8,14 @@ interface GamesState {
   defaultGame: Game | void
   currentGame: Game | void
   games: Record<string, Game>
+  clueAddresses: Record<string, string[]>
 }
 
 const initialState: GamesState = {
   defaultGame: undefined,
   currentGame: undefined,
-  games: {}
+  games: {},
+  clueAddresses: {}
 }
 
 export const fetchGame =
@@ -27,6 +29,22 @@ export const createGame =
     const response = await API.createGame()
     return response.data
   })
+
+interface UpdateCluesAction {
+  gid: string
+  address: string
+}
+
+export const updateClues =
+  createAsyncThunk<any, UpdateCluesAction, { state: RootState }>(
+    'games/updateClues',
+    async ({ gid, address }: UpdateCluesAction, thunkAPI) => {
+      const state = thunkAPI.getState()
+      const clueAddresses = [...(state.games.clueAddresses[gid] || []), address]
+      const response = await API.fetchClues(gid, clueAddresses)
+      return response.data
+    }
+  )
 
 export const gamesSlice = createSlice({
   name: 'games',
@@ -45,6 +63,12 @@ export const gamesSlice = createSlice({
       const { game } = action.payload
       const { id } = game
       state.games[id] = game
+    })
+    builder.addCase(updateClues.fulfilled, (state, action) => {
+      const { game, clueAddresses } = action.payload
+      const { id } = game
+      Object.assign(state.games[id], game)
+      state.clueAddresses[id] = clueAddresses
     })
   }
 })

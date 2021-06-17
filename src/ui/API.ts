@@ -14,3 +14,11 @@ export async function createGame() {
 export async function fetchAddress(gid: string, address: string) {
   return (await fetch(`/api/games/${gid}/address/${address}`)).json()
 }
+
+export async function fetchClues(gid: string, clueAddresses: string[]) {
+  const query =
+    clueAddresses.length
+    ? '?' + clueAddresses.map((a) => `clue=${encodeURIComponent(a)}`).join('&')
+    : ''
+  return (await fetch(`/api/games/${gid}/clues${query}`)).json()
+}
