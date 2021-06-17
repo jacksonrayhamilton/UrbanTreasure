@@ -26,3 +26,21 @@ it('renders missing clues', () => {
   rerender(<Clue clues={clues} />)
   expect(getByText(/\?\?\?/)).toBeInTheDocument()
 })
+
+it('advances to the latest clue', () => {
+  const clues1 = [
+    'Clue #1',
+    'Clue #2'
+  ]
+  const clues2 = [
+    ...clues1,
+    'Clue #3'
+  ]
+  const { getByTestId, getByText, rerender } = render(<Clue clues={clues1} />)
+  const select = getByTestId('select')
+  expect(getByText(/Clue #2/)).toBeInTheDocument()
+  expect(select).toHaveValue('1')
+  rerender(<Clue clues={clues2} />)
+  expect(getByText(/Clue #3/)).toBeInTheDocument()
+  expect(select).toHaveValue('2')
+})
