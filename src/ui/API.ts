@@ -16,9 +16,12 @@ export async function fetchAddress(gid: string, address: string) {
 }
 
 export async function fetchClues(gid: string, clueAddresses: string[]) {
-  const query =
-    clueAddresses.length
+  const query = clueQuery(clueAddresses)
+  return (await fetch(`/api/games/${gid}/clues${query}`)).json()
+}
+
+function clueQuery(clueAddresses: string[]) {
+  return clueAddresses.length
     ? '?' + clueAddresses.map((a) => `clue=${encodeURIComponent(a)}`).join('&')
     : ''
-  return (await fetch(`/api/games/${gid}/clues${query}`)).json()
 }
