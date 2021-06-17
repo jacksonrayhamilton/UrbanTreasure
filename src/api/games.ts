@@ -3,7 +3,7 @@ import { ensureArray } from './util'
 import { Game } from './types'
 import { getGamesCollection } from './db'
 import createGame from './createGame'
-import { serializeGame, serializeGameClues } from './serializers'
+import { serializeGame } from './serializers'
 
 const router = new Router({
   prefix: '/api/games'
@@ -41,23 +41,6 @@ router.get('/:id', async (ctx) => {
   ctx.body = {
     data: {
       game: serializeGame(game, { clueAddresses })
-    }
-  }
-})
-
-router.get('/:id/clues', async (ctx) => {
-  const gamesCollection = getGamesCollection()
-  const { id } = ctx.params
-  const game: Game | null = await gamesCollection.findOne({ id })
-  if (!game) {
-    ctx.response.status = 404
-    return
-  }
-  const clueAddresses: string[] = ensureArray(ctx.query.clue)
-  ctx.body = {
-    data: {
-      game: serializeGameClues(game, { clueAddresses }),
-      clueAddresses
     }
   }
 })
