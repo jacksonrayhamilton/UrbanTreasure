@@ -77,6 +77,12 @@ describe('GET /api/games/:id', () => {
   })
 
   describe('GET /api/games/:id/clues', () => {
+    it('responds with 404 when the game doesn\'t exist', async () => {
+      const response =
+        await request(app.callback()).get('/api/games/G404/clues')
+      expect(response.status).toBe(404)
+    })
+
     it('returns the first clue', async () => {
       const response =
         await request(app.callback()).get('/api/games/G200/clues')
