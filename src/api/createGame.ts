@@ -1,5 +1,5 @@
 import { Game, GameClue, Address } from './types'
-import { randomNumber, randomValue } from './util'
+import { randomNumber, randomValue } from '../js/util'
 import { streetNames, streetSuffixes, wordAssociations } from './data'
 
 export default function createGame(): Game {

@@ -1,5 +1,5 @@
 import Router from 'koa-router'
-import { ensureArray } from './util'
+import { ensureArray } from '../js/util'
 import { Game } from './types'
 import { getGamesCollection } from './db'
 import createGame from './createGame'

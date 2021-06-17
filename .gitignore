@@ -4,6 +4,8 @@ npm-debug.log
 
 # Generated files
 /globalConfig.json
+/dist/js/**/*.js
+/dist/js/**/*.js.map
 /dist/api/**/*.js
 /dist/api/**/*.js.map
 /dist/api/data/*.json
