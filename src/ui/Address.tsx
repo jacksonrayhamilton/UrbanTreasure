@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import { useAppSelector, useAppDispatch } from './hooks'
 import { updateClues } from './gamesSlice'
-import { setFetchingAddress, fetchAddress } from './addressesSlice'
+import { fetchAddress } from './addressesSlice'
 
 export default function Address() {
   const { gid, address: addressParam } =
@@ -19,7 +19,6 @@ export default function Address() {
 
   useEffect(() => {
     if (routedAddress || isFetchingRoutedAddress) return
-    dispatch(setFetchingAddress({ gid, address: addressParam }))
     dispatch(fetchAddress({ gid, address: addressParam }))
   })
 

@@ -23,10 +23,14 @@ interface FetchAddressAction {
 }
 
 export const fetchAddress =
-  createAsyncThunk('games/fetchAddress', async ({ gid, address }: FetchAddressAction) => {
-    const response = await API.fetchAddress(gid, address)
-    return response.data
-  })
+  createAsyncThunk(
+    'games/fetchAddress',
+    async ({ gid, address }: FetchAddressAction, { dispatch }) => {
+      dispatch(setFetchingAddress({ gid, address }))
+      const response = await API.fetchAddress(gid, address)
+      return response.data
+    }
+  )
 
 export const addressesSlice = createSlice({
   name: 'games',
@@ -46,6 +50,6 @@ export const addressesSlice = createSlice({
   }
 })
 
-export const { setFetchingAddress } = addressesSlice.actions
+const { setFetchingAddress } = addressesSlice.actions
 
 export default addressesSlice.reducer
