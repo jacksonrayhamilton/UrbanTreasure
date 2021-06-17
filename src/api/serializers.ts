@@ -13,6 +13,17 @@ export function serializeGame(game: Game, options: SerializeGameOptions = {}) {
   }
 }
 
+export function serializeGameClues(
+  game: Game,
+  options: SerializeGameOptions = {}
+) {
+  const { clueAddresses = [] } = options
+  return {
+    id: game.id,
+    clues: serializeClues(game.clues, clueAddresses)
+  }
+}
+
 function serializeClues(clues: Clue[], clueAddresses: string[]) {
   const returnClues = clues.slice(0, 1)
   clueAddresses.forEach((clueAddress) => {
