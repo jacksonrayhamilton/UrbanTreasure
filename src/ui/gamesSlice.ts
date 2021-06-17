@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import type { RootState } from './store'
+import type { RootState, Store } from './store'
 
 import { Game } from './types'
 import * as API from './API'
@@ -22,6 +22,26 @@ export function createInitialGamesState(): GamesState {
     games: {},
     clueAddresses: {}
   }
+}
+
+export function autoPersistGamesState(store: Store) {
+  let clueAddresses: ClueAddresses
+  store.subscribe(() => {
+    const state = store.getState()
+    if (clueAddresses === state.games.clueAddresses) return
+    clueAddresses = state.games.clueAddresses
+    localStorage.setItem(
+      'UrbanTreasure/games.clueAddresses',
+      JSON.stringify(clueAddresses)
+    )
+  })
+}
+
+export function restorePersistedGamesState(state: RootState) {
+  const clueAddresses =
+    localStorage.getItem('UrbanTreasure/games.clueAddresses')
+  if (clueAddresses) state.games.clueAddresses = JSON.parse(clueAddresses)
+  return state
 }
 
 export const fetchGame =

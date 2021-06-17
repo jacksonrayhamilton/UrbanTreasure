@@ -1,7 +1,13 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 
-import gamesReducer from './gamesSlice'
-import addressesReducer from './addressesSlice'
+import gamesReducer, {
+  autoPersistGamesState,
+  createInitialGamesState,
+  restorePersistedGamesState
+} from './gamesSlice'
+import addressesReducer, {
+  createInitialAddressesState
+} from './addressesSlice'
 
 const rootReducer = combineReducers({
   games: gamesReducer,
@@ -15,7 +21,18 @@ export function createStore(initialState?: RootState) {
   })
 }
 
-export const store = createStore()
+export const store = createStore(getPersistedRootState())
+autoPersistGamesState(store)
+
+function getPersistedRootState() {
+  const rootState: RootState = {
+    games: createInitialGamesState(),
+    addresses: createInitialAddressesState()
+  }
+  restorePersistedGamesState(rootState)
+  return rootState
+}
 
 export type RootState = ReturnType<typeof rootReducer>
+export type Store = typeof store
 export type AppDispatch = typeof store.dispatch
