@@ -25,12 +25,13 @@ export default function Address() {
   useEffect(() => {
     let clue
     if (!(clue = routedAddress?.clue)) return
-    if (clues.includes(clue)) return
-    dispatch(updateClues({ gid, address: addressParam }))
+    if (clues[clue.index]) return
+    dispatch(updateClues({ gid, clue, address: addressParam }))
   })
 
   if (!routedAddress) return null
-  const { address, clue, treasure } = routedAddress
+  const { address, clue: clueObject, treasure } = routedAddress
+  const clue = clueObject?.clue
   return (
     <>
       <h1>{address}</h1>

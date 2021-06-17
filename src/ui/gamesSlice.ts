@@ -72,22 +72,6 @@ export const createGame =
     return response.data
   })
 
-interface UpdateCluesAction {
-  gid: string
-  address: string
-}
-
-export const updateClues =
-  createAsyncThunk<any, UpdateCluesAction, { state: RootState }>(
-    'games/updateClues',
-    async ({ gid, address }: UpdateCluesAction, thunkAPI) => {
-      const state = thunkAPI.getState()
-      const clueAddresses = [...(state.games.clueAddresses[gid] || []), address]
-      const response = await API.fetchClues(gid, clueAddresses)
-      return response.data
-    }
-  )
-
 export const gamesSlice = createSlice({
   name: 'games',
   initialState,
@@ -96,6 +80,17 @@ export const gamesSlice = createSlice({
     setFetchingGame(state, action) {
       const { id } = action.payload
       state.isFetchingGame[id] = true
+    },
+    updateClues(state, action) {
+      const { gid, clue, address } = action.payload
+      state.games[gid].clues[clue.index] = clue.clue
+      // Fill any holes:
+      for (let i = 0; i < clue.index; i++) {
+        if (state.games[gid].clues[i]) continue
+        state.games[gid].clues[i] = null
+      }
+      state.clueAddresses[gid] = state.clueAddresses[gid] || []
+      state.clueAddresses[gid].push(address)
     }
   },
   extraReducers(builder) {
@@ -113,17 +108,11 @@ export const gamesSlice = createSlice({
       const { id } = game
       state.games[id] = game
     })
-    builder.addCase(updateClues.fulfilled, (state, action) => {
-      const { game, clueAddresses } = action.payload
-      const { id } = game
-      Object.assign(state.games[id], game)
-      state.clueAddresses[id] = clueAddresses
-    })
   }
 })
 
 const { setFetchingGame } = gamesSlice.actions
-export const { setCurrentGame } = gamesSlice.actions
+export const { setCurrentGame, updateClues } = gamesSlice.actions
 
 export const selectDefaultGame = (state: RootState) => state.games.defaultGame
 export const selectCurrentGame = (state: RootState) => state.games.currentGame
