@@ -1,4 +1,4 @@
-import { Game, Clue, Address } from './types'
+import { Game, GameClue, Address } from './types'
 
 interface SerializeGameOptions {
   clueAddresses?: string[]
@@ -13,7 +13,7 @@ export function serializeGame(game: Game, options: SerializeGameOptions = {}) {
   }
 }
 
-function serializeClues(clues: Clue[], clueAddresses: string[]) {
+function serializeClues(clues: GameClue[], clueAddresses: string[]) {
   const returnClues = clues.slice(0, 1)
   clueAddresses.forEach((clueAddress) => {
     for (let i = 0; i < clues.length; i++) {

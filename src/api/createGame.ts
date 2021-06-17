@@ -1,4 +1,4 @@
-import { Game, Clue, Address } from './types'
+import { Game, GameClue, Address } from './types'
 import { randomNumber, randomValue } from './util'
 import { streetNames, streetSuffixes, wordAssociations } from './data'
 
@@ -55,13 +55,16 @@ function generateClues(addresses: Address[]) {
     do {
       nextAddress = randomValue(addresses)
     } while (nextAddress.clue)
-    nextAddress.clue = clue.clue
+    nextAddress.clue = {
+      clue: clue.clue,
+      index: cluesToAdd
+    }
     clue.origin = nextAddress.address
   }
   return clues
 }
 
-function generateClue(address: Address): Clue {
+function generateClue(address: Address): GameClue {
   const associations = wordAssociations[address.streetName]
   const clue = randomValue(associations)
   return { origin: null, clue }
