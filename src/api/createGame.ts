@@ -54,7 +54,7 @@ function generateClues(addresses: Address[]) {
     if (!cluesToAdd) break
     do {
       nextAddress = randomValue(addresses)
-    } while (nextAddress.clue)
+    } while (nextAddress.clue || nextAddress.treasure)
     nextAddress.clue = {
       clue: clue.clue,
       index: cluesToAdd
