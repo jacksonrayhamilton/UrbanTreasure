@@ -38,9 +38,13 @@ router.get('/:id', async (ctx) => {
     return
   }
   const clueAddresses: string[] = ensureArray(ctx.query.clue)
+  const page =
+    typeof ctx.query.page === 'string'
+    ? Number(ctx.query.page)
+    : undefined
   ctx.body = {
     data: {
-      game: serializeGame(game, { clueAddresses })
+      game: serializeGame(game, { clueAddresses, page })
     }
   }
 })

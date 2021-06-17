@@ -2,14 +2,15 @@ import { Game, GameClue, Address } from './types'
 
 interface SerializeGameOptions {
   clueAddresses?: string[]
+  page?: number
 }
 
 export function serializeGame(game: Game, options: SerializeGameOptions = {}) {
-  const { clueAddresses = [] } = options
+  const { clueAddresses = [], page = 1 } = options
   return {
     id: game.id,
     clues: serializeClues(game.clues, clueAddresses),
-    addresses: game.addresses.map((address: Address) => address.address)
+    addresses: serializeAddresses(game.addresses, page)
   }
 }
 
@@ -23,4 +24,14 @@ function serializeClues(clues: GameClue[], clueAddresses: string[]) {
     }
   })
   return returnClues.map((clue) => clue.clue)
+}
+
+function serializeAddresses(addresses: Address[], page: number) {
+  const slice = addresses.slice((page - 1) * 10, page * 10)
+  const pages = Math.ceil(addresses.length / 10)
+  return {
+    addresses: slice.map((address) => address.address),
+    page,
+    pages
+  }
 }
