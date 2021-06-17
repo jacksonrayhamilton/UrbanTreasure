@@ -57,10 +57,10 @@ export const fetchDefaultGame =
 
 export const fetchGame =
   createAsyncThunk<any, string, { state: RootState }>(
-    'games/fetchGame', async (id: string, thunkAPI) => {
-      const state = thunkAPI.getState()
-      const { games: { clueAddresses } } = state
-      const response = await API.fetchGame(id, id ? clueAddresses[id] : undefined)
+    'games/fetchGame', async (id, { getState }) => {
+      const { games: { clueAddresses: clueAddressesMap } } = getState()
+      const clueAddresses = id ? clueAddressesMap[id] : undefined
+      const response = await API.fetchGame(id, clueAddresses)
       return response.data
     }
   )
