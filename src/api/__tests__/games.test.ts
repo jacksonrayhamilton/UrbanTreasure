@@ -16,8 +16,22 @@ beforeAll(() => {
 
 describe('GET /api/games/:id', () => {
   beforeAll(async () => {
+    await gamesCollection.insertOne({ id: 'G200', clues: [], addresses: [] })
+  })
+
+  it('responds with 404 when the game doesn\'t exist', async () => {
+    const response = await request(app.callback()).get('/api/games/G404')
+    expect(response.status).toBe(404)
+  })
+
+  it('responds with the game that exists', async () => {
+    const response = await request(app.callback()).get('/api/games/G200')
+    expect(response.status).toBe(200)
+  })
+
+  beforeAll(async () => {
     await gamesCollection.insertOne({
-      id: 'G200',
+      id: 'CLUE',
       clues: [
         { origin: null, clue: 'Blue' },
         { origin: '1111 Bluish Way', clue: 'Green' },
@@ -31,18 +45,8 @@ describe('GET /api/games/:id', () => {
     })
   })
 
-  it('responds with 404 when the game doesn\'t exist', async () => {
-    const response = await request(app.callback()).get('/api/games/G404')
-    expect(response.status).toBe(404)
-  })
-
-  it('responds with the game that exists', async () => {
-    const response = await request(app.callback()).get('/api/games/G200')
-    expect(response.status).toBe(200)
-  })
-
   it('returns only the first clue', async () => {
-    const response = await request(app.callback()).get('/api/games/G200')
+    const response = await request(app.callback()).get('/api/games/CLUE')
     expect(response.body).toMatchObject({ data: { game: {} } })
     expect(Array.isArray(response.body.data.game.clues)).toBe(true)
     expect(response.body.data.game.clues).toHaveLength(1)
@@ -52,7 +56,7 @@ describe('GET /api/games/:id', () => {
   it('returns additional clues for addresses', async () => {
     const response =
       await request(app.callback())
-        .get('/api/games/G200' +
+        .get('/api/games/CLUE' +
           `?clue=${encodeURIComponent('1111 Bluish Way')}` +
           `&clue=${encodeURIComponent('2222 Greenish Lane')}`)
     expect(response.body).toMatchObject({ data: { game: {} } })
@@ -66,7 +70,7 @@ describe('GET /api/games/:id', () => {
   it('omits intermediate unknown clues', async () => {
     const response =
       await request(app.callback())
-        .get('/api/games/G200' +
+        .get('/api/games/CLUE' +
           `?clue=${encodeURIComponent('2222 Greenish Lane')}`)
     expect(response.body).toMatchObject({ data: { game: {} } })
     expect(Array.isArray(response.body.data.game.clues)).toBe(true)
