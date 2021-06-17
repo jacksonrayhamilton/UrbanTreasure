@@ -79,6 +79,128 @@ describe('GET /api/games/:id', () => {
     expect(response.body.data.game.clues[1]).toBe(null)
     expect(response.body.data.game.clues[2]).toBe('Red')
   })
+
+  beforeAll(async () => {
+    await gamesCollection.insertOne({
+      id: 'PAGE',
+      clues: [],
+      addresses: [
+        ...Array(25).fill(0).map((_, index) => ({
+          address: `${1000 + (index * 2)} Abbey Road`
+        }))
+      ]
+    })
+  })
+
+  it('returns the default page of results', async () => {
+    const response = await request(app.callback()).get('/api/games/PAGE')
+    expect(response.body).toMatchObject({ data: { game: {
+      addresses: {
+        addresses: [
+          '1000 Abbey Road',
+          '1002 Abbey Road',
+          '1004 Abbey Road',
+          '1006 Abbey Road',
+          '1008 Abbey Road',
+          '1010 Abbey Road',
+          '1012 Abbey Road',
+          '1014 Abbey Road',
+          '1016 Abbey Road',
+          '1018 Abbey Road'
+        ],
+        page: 1,
+        pages: 3
+      }
+    } } })
+  })
+
+  it('returns page 1 of results', async () => {
+    const response =
+      await request(app.callback()).get('/api/games/PAGE?page=1')
+    expect(response.body).toMatchObject({ data: { game: {
+      addresses: {
+        addresses: [
+          '1000 Abbey Road',
+          '1002 Abbey Road',
+          '1004 Abbey Road',
+          '1006 Abbey Road',
+          '1008 Abbey Road',
+          '1010 Abbey Road',
+          '1012 Abbey Road',
+          '1014 Abbey Road',
+          '1016 Abbey Road',
+          '1018 Abbey Road'
+        ],
+        page: 1,
+        pages: 3
+      }
+    } } })
+  })
+
+  it('returns page 2 of results', async () => {
+    const response =
+      await request(app.callback()).get('/api/games/PAGE?page=2')
+    expect(response.body).toMatchObject({ data: { game: {
+      addresses: {
+        addresses: [
+          '1020 Abbey Road',
+          '1022 Abbey Road',
+          '1024 Abbey Road',
+          '1026 Abbey Road',
+          '1028 Abbey Road',
+          '1030 Abbey Road',
+          '1032 Abbey Road',
+          '1034 Abbey Road',
+          '1036 Abbey Road',
+          '1038 Abbey Road'
+        ],
+        page: 2,
+        pages: 3
+      }
+    } } })
+  })
+
+  it('returns the last page of results', async () => {
+    const response =
+      await request(app.callback()).get('/api/games/PAGE?page=3')
+    expect(response.body).toMatchObject({ data: { game: {
+      addresses: {
+        addresses: [
+          '1040 Abbey Road',
+          '1042 Abbey Road',
+          '1044 Abbey Road',
+          '1046 Abbey Road',
+          '1048 Abbey Road'
+        ],
+        page: 3,
+        pages: 3
+      }
+    } } })
+  })
+
+  it('will not return anything before the first page of results', async () => {
+    const response =
+      await request(app.callback()).get('/api/games/PAGE?page=0')
+    expect(response.body).toMatchObject({ data: { game: {
+      addresses: {
+        addresses: [],
+        page: 0,
+        pages: 3
+      }
+    } } })
+  })
+
+  it('will not return anything beyond the last page of results', async () => {
+    const response =
+      await request(app.callback()).get('/api/games/PAGE?page=4')
+    expect(response.body).toMatchObject({ data: { game: {
+      addresses: {
+        addresses: [],
+        page: 4,
+        pages: 3
+      }
+    } } })
+  })
 })
 
 describe('POST /api/games/new', () => {
