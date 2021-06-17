@@ -24,11 +24,15 @@ export function createStore(initialState?: RootState) {
 export const store = createStore(getPersistedRootState())
 autoPersistGamesState(store)
 
-function getPersistedRootState() {
-  const rootState: RootState = {
+export function createRootState(): RootState {
+  return {
     games: createInitialGamesState(),
     addresses: createInitialAddressesState()
   }
+}
+
+function getPersistedRootState() {
+  const rootState = createRootState()
   restorePersistedGamesState(rootState)
   return rootState
 }

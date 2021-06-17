@@ -2,34 +2,25 @@ import React from 'react'
 import { MemoryRouter, Route } from 'react-router'
 import { cleanup, render } from '../test-util'
 
-import { RootState } from '../store'
+import { createRootState } from '../store'
 import Address from '../Address'
 
 afterEach(cleanup)
 
 it('renders the routed address', () => {
-  const initialState: RootState = {
-    games: {
-      defaultGame: undefined,
-      currentGame: undefined,
-      games: {
-        'ABCD': {
-          id: '',
-          clues: [''],
-          addresses: ['']
-        }
-      },
-      clueAddresses: {}
-    },
-    addresses: {
-      addresses: {
-        'ABCD/1111 Bluish Way': {
-          address: '1111 Bluish Way'
-        }
-      },
-      isFetchingAddress: {}
+  const initialState = createRootState()
+  Object.assign(initialState.games.games, {
+    'ABCD': {
+      id: '',
+      clues: [''],
+      addresses: ['']
     }
-  }
+  })
+  Object.assign(initialState.addresses.addresses, {
+    'ABCD/1111 Bluish Way': {
+      address: '1111 Bluish Way'
+    }
+  })
   const { getByText } = render((
     <MemoryRouter initialEntries={['/games/ABCD/address/1111 Bluish Way']}>
       <Route path="/games/:gid/address/:address">
