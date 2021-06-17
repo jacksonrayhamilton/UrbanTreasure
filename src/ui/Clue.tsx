@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 const Container = styled.span`
@@ -10,18 +10,25 @@ interface ClueProps {
 }
 
 export default function Clue({ clues }: ClueProps) {
+  const [prevClues, setPrevClues] = useState(clues)
   const [selectedClue, setSelectedClue] = useState(clues.length - 1)
 
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     setSelectedClue(Number(e.target.value))
   }
 
+  useEffect(() => {
+    if (prevClues === clues) return
+    setPrevClues(clues)
+    setSelectedClue(clues.length - 1)
+  })
+
   return (
     <Container>
       <select
         data-testid="select"
         onChange={handleChange}
-        defaultValue={selectedClue}>
+        value={selectedClue}>
         {clues.map((_clue, index) =>
           <option key={index} value={index}>
             Clue {index + 1}
