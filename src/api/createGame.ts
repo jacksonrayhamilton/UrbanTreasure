@@ -18,7 +18,7 @@ function generateGameId() {
 
 function generateAddresses() {
   const addresses = []
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 25; i++) {
     let generated: Address
     let alreadyGenerated: boolean
     do {
