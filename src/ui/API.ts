@@ -2,9 +2,10 @@ async function fetchLatestGame() {
   return (await fetch('/api/games/latest')).json()
 }
 
-export async function fetchGame(id: string | void) {
+export async function fetchGame(id: string | void, clueAddresses: string[] = []) {
   if (!id) return fetchLatestGame()
-  return (await fetch(`/api/games/${id}`)).json()
+  const query = clueQuery(clueAddresses)
+  return (await fetch(`/api/games/${id}${query}`)).json()
 }
 
 export async function createGame() {

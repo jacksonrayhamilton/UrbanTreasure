@@ -45,10 +45,14 @@ export function restorePersistedGamesState(state: RootState) {
 }
 
 export const fetchGame =
-  createAsyncThunk('games/fetchGame', async (id: string | void) => {
-    const response = await API.fetchGame(id)
-    return response.data
-  })
+  createAsyncThunk<any, string | void, { state: RootState }>(
+    'games/fetchGame', async (id: string | void, thunkAPI) => {
+      const state = thunkAPI.getState()
+      const { games: { clueAddresses } } = state
+      const response = await API.fetchGame(id, id ? clueAddresses[id] : undefined)
+      return response.data
+    }
+  )
 
 export const createGame =
   createAsyncThunk('games/createGame', async () => {
