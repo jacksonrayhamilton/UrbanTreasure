@@ -57,7 +57,8 @@ export const fetchDefaultGame =
 
 export const fetchGame =
   createAsyncThunk<any, string, { state: RootState }>(
-    'games/fetchGame', async (id, { getState }) => {
+    'games/fetchGame', async (id, { dispatch, getState }) => {
+      dispatch(setFetchingGame({ id }))
       const { games: { clueAddresses: clueAddressesMap } } = getState()
       const clueAddresses = id ? clueAddressesMap[id] : undefined
       const response = await API.fetchGame(id, clueAddresses)
@@ -121,7 +122,8 @@ export const gamesSlice = createSlice({
   }
 })
 
-export const { setCurrentGame, setFetchingGame } = gamesSlice.actions
+const { setFetchingGame } = gamesSlice.actions
+export const { setCurrentGame } = gamesSlice.actions
 
 export const selectDefaultGame = (state: RootState) => state.games.defaultGame
 export const selectCurrentGame = (state: RootState) => state.games.currentGame

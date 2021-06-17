@@ -20,21 +20,17 @@ const GameContainer = styled.div`
 `
 
 export default function Game() {
-  const [fetchingGames, setFetchingGames] = useState({})
   const { gid } = useParams<{ gid: string }>()
   const { path, url } = useRouteMatch()
   const currentGame = useAppSelector(selectCurrentGame)
   const routedGame = useAppSelector(({ games }) => games.games[gid])
+  const isFetchingRoutedGame =
+    useAppSelector(({ games }) => games.isFetchingGame[gid])
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    async function effect() {
-      setFetchingGames({ ...fetchingGames, [gid]: true })
-      dispatch(fetchGame(gid))
-    }
-    if (Object.prototype.hasOwnProperty.call(fetchingGames, gid) ||
-        routedGame) return
-    effect()
+    if (routedGame || isFetchingRoutedGame) return
+    dispatch(fetchGame(gid))
   })
 
   useEffect(() => {
