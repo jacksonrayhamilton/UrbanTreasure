@@ -10,3 +10,10 @@ export function ensureArray(value: any[] | any) {
   if (Array.isArray(value)) return value
   return [value]
 }
+
+export function fillHoles(array: any[]) {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i]) continue
+    array[i] = null
+  }
+}

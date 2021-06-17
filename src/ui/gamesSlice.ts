@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { RootState, Store } from './store'
 
+import { fillHoles } from '../js/util'
 import { Game } from './types'
 import * as API from './API'
 
@@ -84,11 +85,7 @@ export const gamesSlice = createSlice({
     updateClues(state, action) {
       const { gid, clue, address } = action.payload
       state.games[gid].clues[clue.index] = clue.clue
-      // Fill any holes:
-      for (let i = 0; i < clue.index; i++) {
-        if (state.games[gid].clues[i]) continue
-        state.games[gid].clues[i] = null
-      }
+      fillHoles(state.games[gid].clues)
       state.clueAddresses[gid] = state.clueAddresses[gid] || []
       state.clueAddresses[gid].push(address)
     }
