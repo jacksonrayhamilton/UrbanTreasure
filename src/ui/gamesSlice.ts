@@ -10,6 +10,7 @@ interface GamesState {
   defaultGame: Game | void
   currentGame: Game | void
   games: Record<string, Game>
+  isFetchingGame: Record<string, boolean>
   clueAddresses: ClueAddresses
 }
 
@@ -20,6 +21,7 @@ export function createInitialGamesState(): GamesState {
     defaultGame: undefined,
     currentGame: undefined,
     games: {},
+    isFetchingGame: {},
     clueAddresses: {}
   }
 }
@@ -44,9 +46,18 @@ export function restorePersistedGamesState(state: RootState) {
   return state
 }
 
+export const fetchDefaultGame =
+  createAsyncThunk<any, void, { state: RootState }>(
+    'games/fetchDefaultGame', async (_, { dispatch }) => {
+      dispatch(setFetchingGame({ id: 'default' }))
+      const response = await API.fetchLatestGame()
+      return response.data
+    }
+  )
+
 export const fetchGame =
-  createAsyncThunk<any, string | void, { state: RootState }>(
-    'games/fetchGame', async (id: string | void, thunkAPI) => {
+  createAsyncThunk<any, string, { state: RootState }>(
+    'games/fetchGame', async (id: string, thunkAPI) => {
       const state = thunkAPI.getState()
       const { games: { clueAddresses } } = state
       const response = await API.fetchGame(id, id ? clueAddresses[id] : undefined)
@@ -80,10 +91,17 @@ export const gamesSlice = createSlice({
   name: 'games',
   initialState,
   reducers: {
-    setDefaultGame(state, action) { state.defaultGame = action.payload },
-    setCurrentGame(state, action) { state.currentGame = action.payload }
+    setCurrentGame(state, action) { state.currentGame = action.payload },
+    setFetchingGame(state, action) {
+      const { id } = action.payload
+      state.isFetchingGame[id] = true
+    }
   },
   extraReducers(builder) {
+    builder.addCase(fetchDefaultGame.fulfilled, (state, action) => {
+      const { game } = action.payload
+      state.defaultGame = game
+    })
     builder.addCase(fetchGame.fulfilled, (state, action) => {
       const { game } = action.payload
       const { id } = game
@@ -103,7 +121,7 @@ export const gamesSlice = createSlice({
   }
 })
 
-export const { setDefaultGame, setCurrentGame } = gamesSlice.actions
+export const { setCurrentGame, setFetchingGame } = gamesSlice.actions
 
 export const selectDefaultGame = (state: RootState) => state.games.defaultGame
 export const selectCurrentGame = (state: RootState) => state.games.currentGame

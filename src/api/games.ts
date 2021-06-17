@@ -21,9 +21,10 @@ router.get('/latest', async (ctx) => {
   const game: Game =
     await gamesCollection.find().sort({ _id: -1 }).next() ||
     await createAndSaveGame()
+  const { id } = game
   ctx.body = {
     data: {
-      game: serializeGame(game)
+      game: { id }
     }
   }
 })
