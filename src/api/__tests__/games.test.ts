@@ -85,8 +85,11 @@ describe('GET /api/games/:id', () => {
       id: 'PAGE',
       clues: [],
       addresses: [
-        ...Array(25).fill(0).map((_, index) => ({
+        ...Array(12).fill(0).map((_, index) => ({
           address: `${1000 + (index * 2)} Abbey Road`
+        })),
+        ...Array(12).fill(0).map((_, index) => ({
+          address: `${2000 + ((index + 12) * 2)} Candycane Lane`
         }))
       ]
     })
@@ -145,14 +148,14 @@ describe('GET /api/games/:id', () => {
         addresses: [
           '1020 Abbey Road',
           '1022 Abbey Road',
-          '1024 Abbey Road',
-          '1026 Abbey Road',
-          '1028 Abbey Road',
-          '1030 Abbey Road',
-          '1032 Abbey Road',
-          '1034 Abbey Road',
-          '1036 Abbey Road',
-          '1038 Abbey Road'
+          '2024 Candycane Lane',
+          '2026 Candycane Lane',
+          '2028 Candycane Lane',
+          '2030 Candycane Lane',
+          '2032 Candycane Lane',
+          '2034 Candycane Lane',
+          '2036 Candycane Lane',
+          '2038 Candycane Lane'
         ],
         page: 2,
         pages: 3
@@ -166,11 +169,10 @@ describe('GET /api/games/:id', () => {
     expect(response.body).toMatchObject({ data: { game: {
       addresses: {
         addresses: [
-          '1040 Abbey Road',
-          '1042 Abbey Road',
-          '1044 Abbey Road',
-          '1046 Abbey Road',
-          '1048 Abbey Road'
+          '2040 Candycane Lane',
+          '2042 Candycane Lane',
+          '2044 Candycane Lane',
+          '2046 Candycane Lane'
         ],
         page: 3,
         pages: 3
