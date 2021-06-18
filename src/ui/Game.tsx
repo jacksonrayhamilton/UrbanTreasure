@@ -3,6 +3,7 @@ import {
   Redirect,
   Route,
   Switch,
+  useLocation,
   useParams,
   useRouteMatch
 } from 'react-router-dom'
@@ -21,16 +22,18 @@ const GameContainer = styled.div`
 
 export default function Game() {
   const { gid } = useParams<{ gid: string }>()
+  const { search } = useLocation()
+  const gameQuery = `${gid}${search}`
   const { path, url } = useRouteMatch()
   const currentGame = useAppSelector(selectCurrentGame)
-  const routedGame = useAppSelector(({ games }) => games.games[gid])
+  const routedGame = useAppSelector(({ games }) => games.games[gameQuery])
   const isFetchingRoutedGame =
-    useAppSelector(({ games }) => games.isFetchingGame[gid])
+    useAppSelector(({ games }) => games.isFetchingGame[gameQuery])
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (routedGame || isFetchingRoutedGame) return
-    dispatch(fetchGame(gid))
+    dispatch(fetchGame(gameQuery))
   })
 
   useEffect(() => {
@@ -47,7 +50,7 @@ export default function Game() {
           <Redirect to={`${url}/search`} />
         </Route>
         <Route path={`${path}/search`}>
-          <SearchResults game={currentGame} />
+          <SearchResults {...currentGame.addresses} />
         </Route>
         <Route exact path={`${path}/address`}>
           <Redirect to={`${url}`} />

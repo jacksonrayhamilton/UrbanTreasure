@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { RootState, Store } from './store'
 
 import { fillHoles } from '../js/util'
+import { parseGameQuery } from './util'
 import { Game } from './types'
 import * as API from './API'
 
@@ -50,7 +51,7 @@ export function restorePersistedGamesState(state: RootState) {
 export const fetchDefaultGame =
   createAsyncThunk<any, void, { state: RootState }>(
     'games/fetchDefaultGame', async (_, { dispatch }) => {
-      dispatch(setFetchingGame({ id: 'default' }))
+      dispatch(setFetchingGame({ query: 'default' }))
       const response = await API.fetchLatestGame()
       return response.data
     }
@@ -58,12 +59,13 @@ export const fetchDefaultGame =
 
 export const fetchGame =
   createAsyncThunk<any, string, { state: RootState }>(
-    'games/fetchGame', async (id, { dispatch, getState }) => {
-      dispatch(setFetchingGame({ id }))
+    'games/fetchGame', async (query, { dispatch, getState }) => {
+      dispatch(setFetchingGame({ query }))
+      const { id } = parseGameQuery(query)
       const { games: { clueAddresses: clueAddressesMap } } = getState()
       const clueAddresses = id ? clueAddressesMap[id] : undefined
-      const response = await API.fetchGame(id, clueAddresses)
-      return response.data
+      const response = await API.fetchGame(query, clueAddresses)
+      return { ...response.data, query }
     }
   )
 
@@ -79,8 +81,8 @@ export const gamesSlice = createSlice({
   reducers: {
     setCurrentGame(state, action) { state.currentGame = action.payload },
     setFetchingGame(state, action) {
-      const { id } = action.payload
-      state.isFetchingGame[id] = true
+      const { query } = action.payload
+      state.isFetchingGame[query] = true
     },
     updateClues(state, action) {
       const { gid, clue, address } = action.payload
@@ -96,9 +98,8 @@ export const gamesSlice = createSlice({
       state.defaultGame = game
     })
     builder.addCase(fetchGame.fulfilled, (state, action) => {
-      const { game } = action.payload
-      const { id } = game
-      state.games[id] = game
+      const { query, game } = action.payload
+      state.games[query] = game
     })
     builder.addCase(createGame.fulfilled, (state, action) => {
       const { game } = action.payload
