@@ -10,7 +10,7 @@ import {
 import styled from 'styled-components'
 
 import { useAppSelector, useAppDispatch } from './hooks'
-import { selectCurrentGame, fetchGame, setCurrentGame } from './gamesSlice'
+import { fetchGame } from './gamesSlice'
 
 import GameHeader from './GameHeader'
 import SearchResults from './SearchResults'
@@ -25,7 +25,6 @@ export default function Game() {
   const { search } = useLocation()
   const gameQuery = `${gid}${search}`
   const { path, url } = useRouteMatch()
-  const currentGame = useAppSelector(selectCurrentGame)
   const routedGame = useAppSelector(({ games }) => games.games[gameQuery])
   const isFetchingRoutedGame =
     useAppSelector(({ games }) => games.isFetchingGame[gameQuery])
@@ -36,29 +35,25 @@ export default function Game() {
     dispatch(fetchGame(gameQuery))
   })
 
-  useEffect(() => {
-    if (!routedGame) return
-    if (currentGame === routedGame) return
-    dispatch(setCurrentGame(routedGame))
-  })
-
-  return currentGame ? (
+  return (
     <GameContainer>
-      <GameHeader game={currentGame} />
-      <Switch>
-        <Route exact path={path}>
-          <Redirect to={`${url}/search`} />
-        </Route>
-        <Route path={`${path}/search`}>
-          <SearchResults {...currentGame.addresses} />
-        </Route>
-        <Route exact path={`${path}/address`}>
-          <Redirect to={`${url}`} />
-        </Route>
-        <Route path={`${path}/address/:address`}>
-          <Address />
-        </Route>
-      </Switch>
+      <GameHeader />
+      {routedGame ? (
+        <Switch>
+          <Route exact path={path}>
+            <Redirect to={`${url}/search`} />
+          </Route>
+          <Route path={`${path}/search`}>
+            <SearchResults {...routedGame.addresses} />
+          </Route>
+          <Route exact path={`${path}/address`}>
+            <Redirect to={`${url}`} />
+          </Route>
+          <Route path={`${path}/address/:address`}>
+            <Address />
+          </Route>
+        </Switch>
+      ) : null}
     </GameContainer>
-  ) : null
+  )
 }

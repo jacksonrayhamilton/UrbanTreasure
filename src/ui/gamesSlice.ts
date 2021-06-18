@@ -10,7 +10,6 @@ type ClueAddresses = Record<string, string[]>
 
 interface GamesState {
   defaultGame: Game | void
-  currentGame: Game | void
   games: Record<string, Game>
   isFetchingGame: Record<string, boolean>
   clueAddresses: ClueAddresses
@@ -21,7 +20,6 @@ const initialState = createInitialGamesState()
 export function createInitialGamesState(): GamesState {
   return {
     defaultGame: undefined,
-    currentGame: undefined,
     games: {},
     isFetchingGame: {},
     clueAddresses: {}
@@ -79,7 +77,6 @@ export const gamesSlice = createSlice({
   name: 'games',
   initialState,
   reducers: {
-    setCurrentGame(state, action) { state.currentGame = action.payload },
     setFetchingGame(state, action) {
       const { query } = action.payload
       state.isFetchingGame[query] = true
@@ -110,9 +107,8 @@ export const gamesSlice = createSlice({
 })
 
 const { setFetchingGame } = gamesSlice.actions
-export const { setCurrentGame, updateClues } = gamesSlice.actions
+export const { updateClues } = gamesSlice.actions
 
 export const selectDefaultGame = (state: RootState) => state.games.defaultGame
-export const selectCurrentGame = (state: RootState) => state.games.currentGame
 
 export default gamesSlice.reducer

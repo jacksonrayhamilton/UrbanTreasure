@@ -1,11 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { Game } from './types'
 import SearchIcon from './icons/SearchIcon'
 
-const InputContainer = styled.div`
+interface InputContainerProps {
+  isHidden: boolean
+}
+
+const InputContainer = styled.div<InputContainerProps>`
   position: relative;
   display: inline-block;
+  ${({ isHidden }) => isHidden && 'visibility: hidden;'}
 `
 
 const Input = styled.input`
@@ -26,9 +32,13 @@ const IconContainer = styled.div`
   svg { width: 1rem; height: 1rem; }
 `
 
-export default function SearchInput() {
+interface SearchInputProps {
+  game?: Game
+}
+
+export default function SearchInput({ game }: SearchInputProps) {
   return (
-    <InputContainer>
+    <InputContainer isHidden={!game}>
       <Input type="search" />
       <IconContainer>
         <SearchIcon />

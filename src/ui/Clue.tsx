@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-const Container = styled.span`
+interface ContainerProps {
+  isHidden: boolean
+}
+
+const Container = styled.span<ContainerProps>`
   white-space: nowrap;
+  ${({ isHidden }) => isHidden && 'visibility: hidden;'}
 `
 
 interface ClueProps {
@@ -24,7 +29,7 @@ export default function Clue({ clues }: ClueProps) {
   })
 
   return (
-    <Container>
+    <Container isHidden={!clues.length}>
       <select
         data-testid="select"
         onChange={handleChange}
