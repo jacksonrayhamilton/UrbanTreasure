@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Game } from './types'
@@ -18,9 +18,7 @@ const HeaderRow = styled.div`
 
 export default function GameHeader() {
   const { gid } = useParams<{ gid: string }>()
-  const { search } = useLocation()
-  const gameQuery = `${gid}${search}`
-  const routedGame = useAppSelector(({ games }) => games.games[gameQuery])
+  const routedGame = useAppSelector(({ games }) => games.games[gid])
   const clues = routedGame ? routedGame.clues : []
   return (
     <div>

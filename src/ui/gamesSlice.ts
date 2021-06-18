@@ -11,7 +11,8 @@ type ClueAddresses = Record<string, string[]>
 interface GamesState {
   defaultGame: Game | void
   games: Record<string, Game>
-  isFetchingGame: Record<string, boolean>
+  responses: Record<string, Game>
+  isFetching: Record<string, boolean>
   clueAddresses: ClueAddresses
 }
 
@@ -21,7 +22,8 @@ export function createInitialGamesState(): GamesState {
   return {
     defaultGame: undefined,
     games: {},
-    isFetchingGame: {},
+    responses: {},
+    isFetching: {},
     clueAddresses: {}
   }
 }
@@ -49,7 +51,7 @@ export function restorePersistedGamesState(state: RootState) {
 export const fetchDefaultGame =
   createAsyncThunk<any, void, { state: RootState }>(
     'games/fetchDefaultGame', async (_, { dispatch }) => {
-      dispatch(setFetchingGame({ query: 'default' }))
+      dispatch(setFetching({ query: 'default' }))
       const response = await API.fetchLatestGame()
       return response.data
     }
@@ -58,7 +60,7 @@ export const fetchDefaultGame =
 export const fetchGame =
   createAsyncThunk<any, string, { state: RootState }>(
     'games/fetchGame', async (query, { dispatch, getState }) => {
-      dispatch(setFetchingGame({ query }))
+      dispatch(setFetching({ query }))
       const { id } = parseGameQuery(query)
       const { games: { clueAddresses: clueAddressesMap } } = getState()
       const clueAddresses = id ? clueAddressesMap[id] : undefined
@@ -77,9 +79,9 @@ export const gamesSlice = createSlice({
   name: 'games',
   initialState,
   reducers: {
-    setFetchingGame(state, action) {
+    setFetching(state, action) {
       const { query } = action.payload
-      state.isFetchingGame[query] = true
+      state.isFetching[query] = true
     },
     updateClues(state, action) {
       const { gid, clue, address } = action.payload
@@ -96,17 +98,20 @@ export const gamesSlice = createSlice({
     })
     builder.addCase(fetchGame.fulfilled, (state, action) => {
       const { query, game } = action.payload
-      state.games[query] = game
+      const { id } = game
+      if (!state.games[id]) state.games[id] = game
+      state.responses[query] = game
     })
     builder.addCase(createGame.fulfilled, (state, action) => {
       const { game } = action.payload
       const { id } = game
       state.games[id] = game
+      state.responses[id] = game
     })
   }
 })
 
-const { setFetchingGame } = gamesSlice.actions
+const { setFetching } = gamesSlice.actions
 export const { updateClues } = gamesSlice.actions
 
 export const selectDefaultGame = (state: RootState) => state.games.defaultGame

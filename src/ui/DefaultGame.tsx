@@ -7,7 +7,7 @@ import { selectDefaultGame, fetchDefaultGame } from './gamesSlice'
 export default function DefaultGame() {
   const defaultGame = useAppSelector(selectDefaultGame)
   const isFetchingDefaultGame =
-    useAppSelector(({ games }) => games.isFetchingGame['default'])
+    useAppSelector(({ games }) => games.isFetching['default'])
   const dispatch = useAppDispatch()
 
   useEffect(() => {
