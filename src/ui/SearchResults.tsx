@@ -21,21 +21,40 @@ export default function SearchResults(
   )
 }
 
+const ResultsList = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: rgba(0, 0, 0, .05);
+`
+
+const ResultListItem = styled.li`
+  padding: .5rem;
+
+  &:nth-child(2n+1) {
+    background-color: rgba(0, 0, 0, .05);
+  }
+`
+
 function Results({ addresses, page, pages }: ResultsProps) {
   const { gid } = useParams<{ gid: string }>()
   return (
     <>
-      <ul>
+      <ResultsList>
         {addresses.map((address) =>
-          <li key={address}>
+          <ResultListItem key={address}>
             <Link to={`/game/${gid}/address/${encodeURIComponent(address)}`}>{address}</Link>
-          </li>
+          </ResultListItem>
         )}
-      </ul>
+      </ResultsList>
       {pages > 1 ? <Pages page={page} pages={pages} /> : null}
     </>
   )
 }
+
+const PagesNav = styled.nav`
+  margin-top: 1rem;
+`
 
 const Links = styled.ol`
   display: flex;
@@ -63,7 +82,7 @@ function Pages({ page, pages }: PagesProps) {
   const nextPageSearch = new URLSearchParams(search)
   nextPageSearch.set('page', String(page + 1))
   return (
-    <nav>
+    <PagesNav>
       <Links>
         <li>{page > 1 ? <Link to={`${url}?${prevPageSearch}`}>Prev</Link> : <DisabledLink>Prev</DisabledLink>}</li>
         {Array(pages).fill(0).map((_, index) => {
@@ -80,7 +99,7 @@ function Pages({ page, pages }: PagesProps) {
         })}
         <li>{page !== pages ? <Link to={`${url}?${nextPageSearch}`}>Next</Link> : <DisabledLink>Next</DisabledLink>}</li>
       </Links>
-    </nav>
+    </PagesNav>
   )
 }
 
