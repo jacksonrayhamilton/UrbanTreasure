@@ -66,6 +66,18 @@ function Pages({ page, pages }: PagesProps) {
     <nav>
       <Links>
         <li>{page > 1 ? <Link to={`${url}?${prevPageSearch}`}>Prev</Link> : <DisabledLink>Prev</DisabledLink>}</li>
+        {Array(pages).fill(0).map((_, index) => {
+          const nthPage = index + 1
+          const nthSearch = new URLSearchParams(search)
+          if (index > 0) nthSearch.set('page', String(nthPage))
+          return (
+            <li key={index}>{
+              nthPage === page
+              ? <b>{nthPage}</b>
+              : <Link to={`${url}?${nthSearch}`}>{nthPage}</Link>
+            }</li>
+          )
+        })}
         <li>{page !== pages ? <Link to={`${url}?${nextPageSearch}`}>Next</Link> : <DisabledLink>Next</DisabledLink>}</li>
       </Links>
     </nav>
