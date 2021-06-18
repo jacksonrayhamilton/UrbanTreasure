@@ -203,6 +203,62 @@ describe('GET /api/games/:id', () => {
       }
     } } })
   })
+
+  it('returns filtered results', async () => {
+    const response =
+      await request(app.callback()).get('/api/games/PAGE?term=100')
+    expect(response.body).toMatchObject({ data: { game: {
+      addresses: {
+        addresses: [
+          '1000 Abbey Road',
+          '1002 Abbey Road',
+          '1004 Abbey Road',
+          '1006 Abbey Road',
+          '1008 Abbey Road'
+        ],
+        page: 1,
+        pages: 1
+      }
+    } } })
+  })
+
+  it('returns page 1/2 of filtered results', async () => {
+    const response =
+      await request(app.callback()).get('/api/games/PAGE?term=Abbey&page=1')
+    expect(response.body).toMatchObject({ data: { game: {
+      addresses: {
+        addresses: [
+          '1000 Abbey Road',
+          '1002 Abbey Road',
+          '1004 Abbey Road',
+          '1006 Abbey Road',
+          '1008 Abbey Road',
+          '1010 Abbey Road',
+          '1012 Abbey Road',
+          '1014 Abbey Road',
+          '1016 Abbey Road',
+          '1018 Abbey Road'
+        ],
+        page: 1,
+        pages: 2
+      }
+    } } })
+  })
+
+  it('returns page 2/2 of filtered results', async () => {
+    const response =
+      await request(app.callback()).get('/api/games/PAGE?term=Abbey&page=2')
+    expect(response.body).toMatchObject({ data: { game: {
+      addresses: {
+        addresses: [
+          '1020 Abbey Road',
+          '1022 Abbey Road'
+        ],
+        page: 2,
+        pages: 2
+      }
+    } } })
+  })
 })
 
 describe('POST /api/games/new', () => {
