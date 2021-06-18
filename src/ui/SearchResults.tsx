@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link, useLocation, useParams, useRouteMatch } from 'react-router-dom'
+import styled from 'styled-components'
 
 interface ResultsProps {
   addresses: string[]
@@ -36,6 +37,18 @@ function Results({ addresses, page, pages }: ResultsProps) {
   )
 }
 
+const Links = styled.ol`
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+`
+
+const DisabledLink = styled.span`
+  opacity: .5;
+`
+
 interface PagesProps {
   page: number
   pages: number
@@ -50,12 +63,12 @@ function Pages({ page, pages }: PagesProps) {
   const nextPageSearch = new URLSearchParams(search)
   nextPageSearch.set('page', String(page + 1))
   return (
-    <>
-      <div>
-        {page > 1 ? <Link to={`${url}?${prevPageSearch}`}>Previous</Link> : null} {page !== pages ? <Link to={`${url}?${nextPageSearch}`}>Next</Link> : null}
-      </div>
-      <div>Page {page} of {pages}</div>
-    </>
+    <nav>
+      <Links>
+        <li>{page > 1 ? <Link to={`${url}?${prevPageSearch}`}>Prev</Link> : <DisabledLink>Prev</DisabledLink>}</li>
+        <li>{page !== pages ? <Link to={`${url}?${nextPageSearch}`}>Next</Link> : <DisabledLink>Next</DisabledLink>}</li>
+      </Links>
+    </nav>
   )
 }
 
