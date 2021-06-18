@@ -34,7 +34,7 @@ function generateAddresses() {
 }
 
 function generateAddress(): Address {
-  const streetNumber = randomNumber(1, 9999)
+  const streetNumber = randomNumber(1, 10000)
   const streetName = randomValue(streetNames)
   const streetSuffix = randomValue(streetSuffixes)
   return {
